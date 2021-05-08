@@ -31,7 +31,7 @@ namespace MultyParser.Core.Html
         protected abstract string GetTableCellValue();                      // селектор значения спецификации
 
         /* Преобразование объекта товара в структуру для заполнения книги Excel */
-        protected abstract Dictionary<string, List<Dictionary<int, string>>> GatherValuesFromTovarObject(int tovarID, HtmlTovar tovarObject);
+        protected abstract Dictionary<string, List<Dictionary<int, string>>> GatherValuesFromTovarObject(int tovarID, HtmlTovar tovarObject, out bool flagNew);
 
         protected abstract Dictionary<string, int> GetForTransferToMainPage();  // список того, что нужно перенести из спецификаций на главную
 
@@ -63,9 +63,12 @@ namespace MultyParser.Core.Html
 
                     try
                     {
+                        bool flagNew;
                         HtmlTovar tovarObject = ProcessTovar(item.GetAttribute("href"));
                         Dictionary<string, List<Dictionary<int, string>>> values =
-                            GatherValuesFromTovarObject(CurrentTovarID++, tovarObject);
+                            GatherValuesFromTovarObject(CurrentTovarID, tovarObject, out flagNew);
+                        if (flagNew)
+                            CurrentTovarID++;
                         if (values != null)
                             this.ResultBookCreater.WriteDataToBook(values);
                     }

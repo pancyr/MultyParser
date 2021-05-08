@@ -19,7 +19,7 @@ namespace MultyParser.Opencart
             this._resultBookCreater = new OpencartResultBookCreater();
         }
 
-        protected override Dictionary<string, List<Dictionary<int, string>>> GatherValuesFromTovarObject(int tovarID, HtmlTovar tovarObject)
+        protected override Dictionary<string, List<Dictionary<int, string>>> GatherValuesFromTovarObject(int tovarID, HtmlTovar tovarObject, out bool flagNew)
         {
             Dictionary<string, List<Dictionary<int, string>>> result
                 = new Dictionary<string, List<Dictionary<int, string>>>();
@@ -64,7 +64,6 @@ namespace MultyParser.Opencart
                 dataCommon.Add(46, "1");
 
                 // заполнение страницы атрибутов
-
                 TovarGroup commonTovarGroup = MultyParserApp.TovarGroups[this.GetCodeOfTovarGroup()];
                 Dictionary<string, int> parserSpecifications = this.GetSpecifications();
                 Dictionary<string, int> forTransfer = this.GetForTransferToMainPage();
@@ -106,8 +105,10 @@ namespace MultyParser.Opencart
 
                 result.Add(PRODUCTS_PAGE_NAME, new List<Dictionary<int, string>> { dataCommon });
                 result.Add(ATTRIBUTES_PAGE_NAME, dataAttributes);
+                flagNew = true;
                 return result;
             }
+            flagNew = false;
             return null;
         }
     }
