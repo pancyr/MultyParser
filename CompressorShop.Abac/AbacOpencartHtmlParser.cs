@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using MultyParser.Core;
+using MultyParser.Core.Html;
 using MultyParser.Opencart;
 
 namespace CompressorShop.Abac
@@ -12,12 +14,14 @@ namespace CompressorShop.Abac
         protected override string GetSelectorForNextButton() => "li.bx-pag-next>a";
         protected override string GetSelectorForTovarName() => "div>h1";
         protected override string GetSelectorForTovarDescription() => "div.emarket-detail-area-container>p";
-        protected override string GetSelectorForMainPhoto() => "div#emarket_big_photo>a";
-        protected override string GetAttributeForMainPhotoUrl() => "href";
-        protected override string GetSelectorForTableOfSpecifications() => 
+        protected override string GetSelectorForPrice() => ".item_current_price";
+        protected override string GetSelectorForListOfImages() => "div#emarket_big_photo>a";
+        protected override string GetSelectorForTableOfSpecifications() =>
             ".emarket-detail-area-container>table.emarket-props-table>tbody>tr";
         protected override string GetTableCellName() => "td.emarket-props-name";
         protected override string GetTableCellValue() => "td.emarket-props-data";
+
+        protected override string GetBrandName() => "компрессор";
 
         protected override string GetCodeOfTovarGroup() => "COMPRESS";
 

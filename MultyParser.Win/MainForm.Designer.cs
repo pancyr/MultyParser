@@ -99,10 +99,10 @@ namespace MultyParser.Win
             // 
             // txtResultFile
             // 
-            this.txtResultFile.Location = new System.Drawing.Point(101, 12);
+            this.txtResultFile.Location = new System.Drawing.Point(158, 12);
             this.txtResultFile.Name = "txtResultFile";
             this.txtResultFile.ReadOnly = true;
-            this.txtResultFile.Size = new System.Drawing.Size(444, 20);
+            this.txtResultFile.Size = new System.Drawing.Size(387, 20);
             this.txtResultFile.TabIndex = 12;
             // 
             // label1
@@ -110,9 +110,9 @@ namespace MultyParser.Win
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.Size = new System.Drawing.Size(143, 13);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Выходной файл";
+            this.label1.Text = "Шаблон выходных файлов:";
             // 
             // cmdBrowse
             // 

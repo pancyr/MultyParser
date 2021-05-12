@@ -9,19 +9,12 @@ namespace MultyParser.Core.Html
     public class HtmlTovar
     {
         public string Name { get; set; }
+        public string Model { get; set; }
+        public string Option { get; set; }
+        public string Group { get; set; }
         public string Description { get; set; }
-        public string MainPhotoUrl { get; set; }
-
-        protected List<string> _photos;
-        public List<string> Photos
-        {
-            get
-            {
-                if (_photos == null)
-                    _photos = new List<string>();
-                return _photos;
-            }
-        }
+        public string Price { get; set; }
+        public List<string> Photos { get; set; }
 
         protected Dictionary<string, string> _specifications;
         public Dictionary<string, string> Specifications

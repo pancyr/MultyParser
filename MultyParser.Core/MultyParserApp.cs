@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
+using System.Configuration;
+
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 using MultyParser.Configuration;
@@ -55,7 +57,7 @@ namespace MultyParser.Core
                 TovarGroups.Add(group.Code, new TovarGroup(group));
         }
 
-        public static bool DoParsingOfWebSite(int startTovarID, string siteUrl, string reportTemplate, ParserBase.SetProgressValueHandler handler = null)
+        public static bool DoParsingOfWebSite(string siteUrl, string reportTemplate, ParserBase.SetProgressValueHandler handler = null)
         {
             CurrentPageNum = 0;
             HtmlParserBase parser = MultyParserApp.SelectHtmlParser(siteUrl, System.Windows.Forms.Application.StartupPath + "\\Modules");
@@ -64,12 +66,26 @@ namespace MultyParser.Core
                 CurrentParsingTitle = "Сайт: " + parser.GetSiteName();
                 TotalPages = parser.CountPages(siteUrl);
                 string templateFile = (reportTemplate.Length > 0) ? reportTemplate : null;
-                parser.ResultBookCreater.Init("Компрессоры", templateFile, parser.GetSiteName());
+                string dep = parser.GetDepartmentByUrl(siteUrl);
+                parser.ResultBookCreater.Init(dep, templateFile, parser.GetSiteName());
+
+                int volumeSize = parser.GetVolumeSize();
+                if (volumeSize != 0)
+                    parser.ResultBookCreater.VolumeSize = volumeSize;
 
                 if (handler != null)
                     parser.SetProgressValue += handler;
 
-                parser.DoParsingOfIncomingHtml(startTovarID, siteUrl, WorkerArgs);
+                // Достаём из конфига текущее значение идентификатора товара
+                System.Configuration.Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                int tovarIdent = Int32.Parse(currentConfig.AppSettings.Settings["identValue"].Value);
+
+                parser.DoParsingOfIncomingHtml(ref tovarIdent, siteUrl, WorkerArgs); // запускаем парсинг веб-страницы
+
+                // Сохраняем новое значение идентификатора
+                currentConfig.AppSettings.Settings["identValue"].Value = tovarIdent.ToString();
+                currentConfig.Save();
+                ConfigurationManager.RefreshSection("appSettings");
 
                 if (WorkerArgs.Cancel)
                     return false;

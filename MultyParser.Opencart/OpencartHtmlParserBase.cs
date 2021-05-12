@@ -11,22 +11,19 @@ namespace MultyParser.Opencart
 {
     public abstract class OpencartHtmlParserBase : HtmlParserBase
     {
-        protected const string PRODUCTS_PAGE_NAME = "Products";
-        protected const string ATTRIBUTES_PAGE_NAME = "ProductAttributes";
 
         public OpencartHtmlParserBase()
         {
             this._resultBookCreater = new OpencartResultBookCreater();
         }
 
-        protected override Dictionary<string, List<Dictionary<int, string>>> GatherValuesFromTovarObject(int tovarID, HtmlTovar tovarObject, out bool flagNew)
+        protected override string GetSizeUnit() => "мм";
+        protected override string GetMassUnit() => "кг";
+
+        protected override Dictionary<int, string> GatherCommonDataFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
         {
-            Dictionary<string, List<Dictionary<int, string>>> result
-                = new Dictionary<string, List<Dictionary<int, string>>>();
-
             Dictionary<int, string> dataCommon = new Dictionary<int, string>();
-            List<Dictionary<int, string>> dataAttributes = new List<Dictionary<int, string>>();
-
+            pageName = OpencartResultBookCreater.PRODUCTS_PAGE_NAME;
             string textName = tovarObject.Name;
 
             if (textName.Length > 0)
@@ -36,13 +33,19 @@ namespace MultyParser.Opencart
                 dataCommon.Add(2, textName);
                 dataCommon.Add(3, textName);
                 dataCommon.Add(12, "1000");
+                dataCommon.Add(13, tovarObject.Model);
 
-                string photo_url = (tovarObject.MainPhotoUrl.StartsWith(@"//")) ?
-                    tovarObject.MainPhotoUrl : GetBaseUrl() + tovarObject.MainPhotoUrl;
+                if (tovarObject.Photos.Count > 0)
+                {
+                    dataCommon.Add(15, tovarObject.Photos[0]);
+                    tovarObject.Photos.RemoveAt(0);
+                }
 
-                dataCommon.Add(15, photo_url);
                 dataCommon.Add(16, "yes");
+                dataCommon.Add(17, tovarObject.Price);
                 dataCommon.Add(18, "0");
+                dataCommon.Add(23, GetMassUnit());
+                dataCommon.Add(27, GetSizeUnit());
                 dataCommon.Add(28, "true");
 
                 // поле Seo_Title
@@ -63,53 +66,115 @@ namespace MultyParser.Opencart
                 dataCommon.Add(45, "true");
                 dataCommon.Add(46, "1");
 
-                // заполнение страницы атрибутов
-                TovarGroup commonTovarGroup = MultyParserApp.TovarGroups[this.GetCodeOfTovarGroup()];
-                Dictionary<string, int> parserSpecifications = this.GetSpecifications();
-                Dictionary<string, int> forTransfer = this.GetForTransferToMainPage();
+                return dataCommon;
+            }
+            return null;
+        }
 
-                foreach (KeyValuePair<string, string> spec in tovarObject.Specifications)
+        protected override List<Dictionary<int, string>> GatherAdditionalImagesFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
+        {
+            List<Dictionary<int, string>> result = new List<Dictionary<int, string>>();
+            foreach (string photo in tovarObject.Photos)
+            {
+                Dictionary<int, string> pairs = new Dictionary<int, string>();
+                pairs.Add(1, tovarID.ToString());
+                pairs.Add(2, photo);
+                pairs.Add(3, "0");
+                result.Add(pairs);
+            }
+            pageName = OpencartResultBookCreater.IMAGES_PAGE_NAME;
+            return result;
+        }
+
+        protected override Dictionary<int, string> MakeDictionaryForAttributesPageRow(int tovarID, string groupName, string attributeName, string value)
+        {
+            Dictionary<int, string> pairs = new Dictionary<int, string>();
+            pairs.Add(1, tovarID.ToString());
+            pairs.Add(2, groupName);
+            pairs.Add(3, attributeName);
+            pairs.Add(5, value);
+            return pairs;
+        }
+
+        protected override List<Dictionary<int, string>> GatherAttributesFromTovarObject(
+            int tovarID, HtmlTovar tovarObject, TovarGroup tovarGroup, Dictionary<int, string> dataCommon,
+            Dictionary<string, int> parserSpecifications, Dictionary<string, int> forTransfer, out string pageName)
+        {
+            List<Dictionary<int, string>> result = new List<Dictionary<int, string>>();
+
+            foreach (KeyValuePair<string, string> spec in tovarObject.Specifications)
+            {
+                // Пытаемся найти соответствие спецификации со страницы сайта
+                // одной из тех, что подлежит занесению в файл импорта
+                if (parserSpecifications.ContainsKey(spec.Key))
                 {
-                    // Пытаемся найти соответствие спецификации со страницы сайта
-                    // одной из тех, что подлежит занесению в файл импорта
-                    if (parserSpecifications.ContainsKey(spec.Key))
+                    // Если такое соответствие найдено,
+                    // Делаем запись на листе атрибутов
+
+                    int attributeCode = parserSpecifications[spec.Key];
+                    string attributeName = tovarGroup.Specifications[attributeCode];
+                    result.Add(MakeDictionaryForAttributesPageRow(
+                        tovarID, tovarGroup.DisplayName, attributeName, spec.Value));
+                }
+                else
+                {
+                    // Если не найдено, то надо ещё проверить
+                    // может это должно быть перенесено в главную таблицу
+
+                    foreach (string prop in forTransfer.Keys)
                     {
-                        // Если такое соответствие найдено,
-                        // Делаем соответствующую запись на листе атрибутов
-
-                        int attributeCode = parserSpecifications[spec.Key];
-                        string attributeName = commonTovarGroup.Specifications[attributeCode];
-
-                        Dictionary<int, string> values = new Dictionary<int, string>();
-                        values.Add(1, tovarID.ToString());
-                        values.Add(2, commonTovarGroup.DisplayName);
-                        values.Add(3, attributeName);
-                        values.Add(5, spec.Value);
-                        dataAttributes.Add(values);
-                    }
-                    else
-                    {
-                        // Если не найдено, то надо ещё проверить
-                        // может это должно быть перенесено в главную таблицу
-
-                        foreach (string prop in forTransfer.Keys)
+                        if (spec.Key.StartsWith(prop))
                         {
-                            if (spec.Key.StartsWith(prop))
-                            {
-                                dataCommon.Add(forTransfer[prop], tovarObject.Specifications[spec.Key]);
-                                break;
-                            }
+                            dataCommon.Add(forTransfer[prop], tovarObject.Specifications[spec.Key]);
+                            break;
                         }
                     }
                 }
-
-                result.Add(PRODUCTS_PAGE_NAME, new List<Dictionary<int, string>> { dataCommon });
-                result.Add(ATTRIBUTES_PAGE_NAME, dataAttributes);
-                flagNew = true;
-                return result;
             }
-            flagNew = false;
-            return null;
+
+            pageName = OpencartResultBookCreater.ATTRIBUTES_PAGE_NAME;
+            return result;
+        }
+
+        protected override List<Dictionary<int, string>> GatherOptionFromTovarObject(int tovarID, out string pageName)
+        {
+            Dictionary<int, string> values = new Dictionary<int, string>();
+            values.Add(1, tovarID.ToString());
+            values.Add(2, this.GetMainOption());
+            values.Add(4, "true");
+            pageName = OpencartResultBookCreater.OPTIONS_PAGE_NAME;
+            return new List<Dictionary<int, string>> { values };
+        }
+
+        protected override List<Dictionary<int, string>> GatherOptionValueFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
+        {
+            Dictionary<int, string> values = new Dictionary<int, string>();
+            values.Add(1, tovarID.ToString());
+            values.Add(2, this.GetMainOption());
+            values.Add(3, tovarObject.Option);
+            values.Add(4, "50");
+            values.Add(5, "false");
+            values.Add(6, "0");
+            values.Add(7, "+");
+            values.Add(8, "0");
+            values.Add(9, "+");
+            values.Add(10, "0");
+            values.Add(11, "+");
+            pageName = OpencartResultBookCreater.OPTION_VALUES_PAGE_NAME;
+            return new List<Dictionary<int, string>> { values };
+        }
+
+        protected override Dictionary<int, string> GatherSeoKeywordsFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
+        {
+            string title = Transliteration.Front(tovarObject.Name).Replace(" ", "-");
+            title = this.GetUniqueSeoTitle(title);
+            Dictionary<int, string> pairs = new Dictionary<int, string>();
+            pairs.Add(1, tovarID.ToString());
+            pairs.Add(2, "0");
+            pairs.Add(3, "en-" + title);
+            pairs.Add(4, title);
+            pageName = OpencartResultBookCreater.SEO_PAGE_NAME;
+            return pairs;
         }
     }
 }

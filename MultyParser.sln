@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressorShop.Abac", "Comp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultyParser.Configuration", "MultyParser.Configuration\MultyParser.Configuration.csproj", "{8860A437-A509-47A1-BA87-E3F56B2C2FE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressorShop.Berg", "CompressorShop.Berg\CompressorShop.Berg.csproj", "{F7AC1BA5-8D5E-4E57-8A92-B73582951578}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8860A437-A509-47A1-BA87-E3F56B2C2FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8860A437-A509-47A1-BA87-E3F56B2C2FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8860A437-A509-47A1-BA87-E3F56B2C2FE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7AC1BA5-8D5E-4E57-8A92-B73582951578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7AC1BA5-8D5E-4E57-8A92-B73582951578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7AC1BA5-8D5E-4E57-8A92-B73582951578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7AC1BA5-8D5E-4E57-8A92-B73582951578}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

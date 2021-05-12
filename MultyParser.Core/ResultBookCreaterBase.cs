@@ -65,7 +65,6 @@ namespace MultyParser.Core
                     this.SaveBookAsPartialFile();
                     TovarPos = 1;
                 }
-                else TovarPos++;
             }
             return true;
         }
@@ -160,7 +159,7 @@ namespace MultyParser.Core
         {
             if (this.TovarPos > 1)
             {
-                if (VolumeSize > 0)
+                if (VolumeSize > 0 && Number > 1)
                     SaveBookAsPartialFile();
                 else
                     SaveBookAsSingleFile();

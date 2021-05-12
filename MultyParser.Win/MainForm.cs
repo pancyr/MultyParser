@@ -56,7 +56,7 @@ namespace MultyParser.Win
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MultyParserConfigSection configSection = 
+            MultyParserConfigSection configSection =
                 (MultyParserConfigSection)ConfigurationManager.GetSection("MultyParserConfigSection");
             MultyParserApp.InitConfiguration(configSection);
             this.FillListOfFiles();
@@ -128,14 +128,14 @@ namespace MultyParser.Win
         private void ParseExcelFile(string fileName)
         {
             ExcelBook book = ExcelBook.Open(fileName);
-            MultyParserApp.DoParsingOfExcelBook(book, txtResultFile.Text, 
+            MultyParserApp.DoParsingOfExcelBook(book, txtResultFile.Text,
                 new ParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress));
             book.Close();
         }
 
         private void ParseSiteUrl(string siteUrl)
         {
-            MultyParserApp.DoParsingOfWebSite(1000, siteUrl, txtResultFile.Text,
+            MultyParserApp.DoParsingOfWebSite(siteUrl, txtResultFile.Text,
                 new ParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress));
         }
 
