@@ -36,6 +36,14 @@ namespace MultyParser.Core
             return title;
         }
 
+        protected string GetPrice(string input)
+        {
+            string result = Regex.Replace(input, @"[^\d,.]", "").Replace(".", ",");
+            Regex regPrice = new Regex(@"\d+(,\d+)?");
+            Match m = regPrice.Match(result);
+            return (m.Success) ? m.ToString() : "";
+        }
+
 
         protected abstract Dictionary<int, string> MakeDictionaryForAttributesPageRow(int tovarID, string groupName, string attributeName, string value);
 

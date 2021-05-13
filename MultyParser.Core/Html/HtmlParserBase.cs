@@ -197,11 +197,8 @@ namespace MultyParser.Core.Html
                 .Select(a => GetFullUrl(a.GetAttribute("href"))).ToList();
             result.Description = doc.QuerySelector(GetSelectorForTovarDescription()).TextContent.Trim();
 
-            string strPrice = doc.QuerySelector(GetSelectorForPrice()).TextContent;
-            strPrice = Regex.Replace(strPrice, @"\D", "").Replace(".", ",");
-            Regex regPrice = new Regex(@"\d+[,]?\d*");
-            Match m = regPrice.Match(strPrice);
-            result.Price = (m.Success) ? m.ToString() : "";
+            string strPrice = GetPrice(doc.QuerySelector(GetSelectorForPrice()).TextContent);
+            
 
             var specItems = doc.QuerySelectorAll(GetSelectorForTableOfSpecifications());
             foreach (var item in specItems)
@@ -219,7 +216,11 @@ namespace MultyParser.Core.Html
             int q_index = address.IndexOf("?");
             if (q_index > -1)
                 address = address.Substring(0, q_index);
-            return  (address.StartsWith(@"//")) ? "https:" + address : GetBaseUrl() + address;
+            if (address.StartsWith(@"//"))
+                address = "https:" + address;
+            else if (address.StartsWith(@"/"))
+                address = GetBaseUrl() + address;
+            return address;
         }
 
         protected IHtmlDocument GetWebDocument(string link)
