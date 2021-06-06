@@ -50,6 +50,20 @@ namespace MultyParser.Core
         }
     }
 
+    [AttributeUsage(AttributeTargets.Class)]
+    public class TemplateSetAttribute : System.Attribute
+    {
+        public string Name { get; set; }
+
+        public TemplateSetAttribute()
+        { }
+
+        public TemplateSetAttribute(string name)
+        {
+            this.Name = name;
+        }
+    }
+
     [AttributeUsage(AttributeTargets.Assembly)]
     public class MultyStructurePriceAttribute : System.Attribute
     {

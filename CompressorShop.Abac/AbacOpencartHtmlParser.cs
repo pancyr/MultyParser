@@ -5,7 +5,7 @@ using MultyParser.Opencart;
 
 namespace CompressorShop.Abac
 {
-    public class AbacOpencartHtmlParser : OpencartHtmlParserBase
+    public class AbacOpencartHtmlParser : OpencartProductHtmlParserBase
     {
         public override string GetSiteName() => "www.abac-air.com";
 

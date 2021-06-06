@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OpencartExcelParserBase.cs" />
-    <Compile Include="OpencartHtmlParserBase.cs" />
-    <Compile Include="OpencartResultBookCreater.cs" />
+    <Compile Include="OpencartOptionBookCreater.cs" />
+    <Compile Include="OpencartOptionHtmlParserBase.cs" />
+    <Compile Include="OpencartProductHtmlParserBase.cs" />
+    <Compile Include="OpencartProductBookCreater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

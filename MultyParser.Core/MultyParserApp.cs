@@ -15,11 +15,6 @@ namespace MultyParser.Core
 {
     public sealed class MultyParserApp
     {
-        public static string CurrentParsingTitle { get; set; }
-        public static int CurrentPageNum { get; set; }
-        public static int TotalPages { get; set; }
-        public static int TotalRows { get; set; }
-
         public static Dictionary<string, TovarGroup> TovarGroups { get; set; }
 
         private static Microsoft.Office.Interop.Excel.Application _excelApp;
@@ -48,8 +43,6 @@ namespace MultyParser.Core
             }
         }
 
-        public static DoWorkEventArgs WorkerArgs { get; set; }
-
         public static void InitConfiguration(MultyParserConfigSection section)
         {
             TovarGroups = new Dictionary<string, TovarGroup>();
@@ -57,50 +50,15 @@ namespace MultyParser.Core
                 TovarGroups.Add(group.Code, new TovarGroup(group));
         }
 
-        public static bool DoParsingOfWebSite(string siteUrl, string reportTemplate, ParserBase.SetProgressValueHandler handler = null)
-        {
-            CurrentPageNum = 0;
-            HtmlParserBase parser = MultyParserApp.SelectHtmlParser(siteUrl, System.Windows.Forms.Application.StartupPath + "\\Modules");
-            if (parser != null)
-            {
-                CurrentParsingTitle = "Сайт: " + parser.GetSiteName();
-                TotalPages = parser.CountPages(siteUrl);
-                string templateFile = (reportTemplate.Length > 0) ? reportTemplate : null;
-                string dep = parser.GetDepartmentByUrl(siteUrl);
-                parser.ResultBookCreater.Init(dep, templateFile, parser.GetSiteName());
-
-                int volumeSize = parser.GetVolumeSize();
-                if (volumeSize != 0)
-                    parser.ResultBookCreater.VolumeSize = volumeSize;
-
-                if (handler != null)
-                    parser.SetProgressValue += handler;
-
-                // Достаём из конфига текущее значение идентификатора товара
-                System.Configuration.Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                int tovarIdent = Int32.Parse(currentConfig.AppSettings.Settings["identValue"].Value);
-
-                parser.DoParsingOfIncomingHtml(ref tovarIdent, siteUrl, WorkerArgs); // запускаем парсинг веб-страницы
-
-                // Сохраняем новое значение идентификатора
-                currentConfig.AppSettings.Settings["identValue"].Value = tovarIdent.ToString();
-                currentConfig.Save();
-                ConfigurationManager.RefreshSection("appSettings");
-
-                if (WorkerArgs.Cancel)
-                    return false;
-            }
-            return true;
-        }
-
-        public static bool DoParsingOfExcelBook(ExcelBook book, string reportTemplate, ParserBase.SetProgressValueHandler handler = null)
+        /*public static bool DoParsingOfExcelBook(ExcelBook book, string reportTemplate, ParserBase.SetProgressValueHandler handler = null)
         {
             CurrentPageNum = 0;
             foreach (string key in book.Pages.Keys)
             {
-                ExcelParserBase parser = MultyParserApp.SelectExcelParser(book.Pages[key], System.Windows.Forms.Application.StartupPath + "\\Modules");
-                if (parser != null)
+                ExcelParserCreaterBase creater = MultyParserApp.SelectExcelParserCreater(book.Pages[key], System.Windows.Forms.Application.StartupPath + "\\Modules");
+                if (creater != null)
                 {
+                    ExcelParserBase parser = creater.GetParserObjectForProducts() as ExcelParserBase;
                     CurrentParsingTitle = "Книга: " + book.Name;
                     TotalPages = book.Pages.Count;
                     CurrentPageNum++;
@@ -118,19 +76,19 @@ namespace MultyParser.Core
                 }
             }
             return true;
-        }
+        }*/
 
-        public static HtmlParserBase SelectHtmlParser(string link, string modulesPath = null)
+        public static HtmlParserCreaterBase SelectHtmlParserCreater(string link, string modulesPath = null)
         {
-            return SelectParserObjectFromAvailableModules(link, null, modulesPath) as HtmlParserBase;
+            return SelectParserObjectFromAvailableModules(link, null, modulesPath) as HtmlParserCreaterBase;
         }
 
-        public static ExcelParserBase SelectExcelParser(ExcelPage page, string modulesPath = null)
+        public static ExcelParserCreaterBase SelectExcelParserCreater(ExcelPage page, string modulesPath = null)
         {
-            return SelectParserObjectFromAvailableModules(null, page, modulesPath) as ExcelParserBase;
+            return SelectParserObjectFromAvailableModules(null, page, modulesPath) as ExcelParserCreaterBase;
         }
 
-        private static ParserBase SelectParserObjectFromAvailableModules(string link = null, ExcelPage page = null, string modulesPath = null)
+        private static IParserCreater SelectParserObjectFromAvailableModules(string link = null, ExcelPage page = null, string modulesPath = null)
         {
             if (modulesPath == null)
                 modulesPath = System.Windows.Forms.Application.StartupPath + "\\Modules";
@@ -153,15 +111,15 @@ namespace MultyParser.Core
                     {
                         if (link != null)
                         {
-                            HtmlParserCreaterBase creator = Activator.CreateInstance(type) as HtmlParserCreaterBase;
-                            if (creator.DetectIncomingLinkForParserClass(link))
-                                return creator.GetHtmlParserObject();
+                            HtmlParserCreaterBase creater = Activator.CreateInstance(type) as HtmlParserCreaterBase;
+                            if (creater.DetectIncomingLinkForParserClass(link))
+                                return creater;
                         }
                         else if (page != null)
                         {
-                            ExcelParserCreaterBase creator = Activator.CreateInstance(type) as ExcelParserCreaterBase;
-                            if (creator.DetectIncomingPageForParserClass(page))
-                                return creator.GetExcelParserObject();
+                            ExcelParserCreaterBase creater = Activator.CreateInstance(type) as ExcelParserCreaterBase;
+                            if (creater.DetectIncomingPageForParserClass(page))
+                                return creater;
                         }
                     }
             }

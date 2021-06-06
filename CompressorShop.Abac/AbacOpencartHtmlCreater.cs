@@ -7,7 +7,7 @@ namespace CompressorShop.Abac
     [SiteUrl("abac-air.com")]
     public class AbacOpencartHtmlCreater : HtmlParserCreaterBase
     {
-        public override HtmlParserBase GetHtmlParserObject()
+        public override ParserBase GetParserObjectForProducts()
         {
             return new AbacOpencartHtmlParser();
         }

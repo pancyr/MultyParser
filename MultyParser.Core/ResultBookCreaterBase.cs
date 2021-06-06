@@ -20,7 +20,7 @@ namespace MultyParser.Core
         public int Number { get; set; }             // текущий номер тома
         public int VolumeSize { get; set; }         // размер тома
         public int DigitNum { get; set; }           // кол-во цифр в номер тома
-        public int TovarPos { get; set; }
+        public int EntityPos { get; set; }
 
         public void Init(string filePrefix, string template = null, string subFolder = null, int num = 1, int volume = 500, int digit = 3)
         {
@@ -60,10 +60,10 @@ namespace MultyParser.Core
             }
             if (VolumeSize != 0)
             {
-                if (TovarPos == VolumeSize)
+                if (EntityPos == VolumeSize)
                 {
                     this.SaveBookAsPartialFile();
-                    TovarPos = 1;
+                    EntityPos = 1;
                 }
             }
             return true;
@@ -149,7 +149,8 @@ namespace MultyParser.Core
                     }
                 }
             }
-            this.TovarPos = 1;
+            if (EntityPos == 0) 
+                EntityPos = 1;
             return resultBook;
         }
 
@@ -157,7 +158,7 @@ namespace MultyParser.Core
         // или, в случае разбиения на тома, последней её части
         public virtual bool FinalProcessing()
         {
-            if (this.TovarPos > 1)
+            if (this.EntityPos > 1)
             {
                 if (VolumeSize > 0 && Number > 1)
                     SaveBookAsPartialFile();

@@ -9,13 +9,16 @@ using MultyParser.Core.Html;
 
 namespace MultyParser.Opencart
 {
-    public abstract class OpencartHtmlParserBase : HtmlParserBase
+    [TemplateSet("OPENCART")]
+    public abstract class OpencartProductHtmlParserBase : ProductHtmlParserBase
     {
 
-        public OpencartHtmlParserBase()
+        public OpencartProductHtmlParserBase()
         {
-            this._resultBookCreater = new OpencartResultBookCreater();
+            this._resultBookCreater = new OpencartProductBookCreater();
         }
+
+        public override string GetDefaultTemplate() => this.Templates["PROD"];
 
         protected override string GetSizeUnit() => "мм";
         protected override string GetMassUnit() => "кг";
@@ -23,17 +26,18 @@ namespace MultyParser.Opencart
         protected override Dictionary<int, string> GatherCommonDataFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
         {
             Dictionary<int, string> dataCommon = new Dictionary<int, string>();
-            pageName = OpencartResultBookCreater.PRODUCTS_PAGE_NAME;
-            string textName = tovarObject.Name;
+            pageName = OpencartProductBookCreater.PRODUCTS_PAGE_NAME;
 
-            if (textName.Length > 0)
+            if (tovarObject.Name.Length > 0)
             {
                 // заполняем массив данных для страницы Products
                 dataCommon.Add(1, tovarID.ToString());
-                dataCommon.Add(2, textName);
-                dataCommon.Add(3, textName);
+                dataCommon.Add(2, tovarObject.Name);
+                dataCommon.Add(3, tovarObject.Name);
+                dataCommon.Add(4, "10,100,110");
                 dataCommon.Add(12, "1000");
                 dataCommon.Add(13, tovarObject.Model);
+                dataCommon.Add(14, "CONTE");
 
                 if (tovarObject.Photos.Count > 0)
                 {
@@ -47,20 +51,26 @@ namespace MultyParser.Opencart
                 dataCommon.Add(23, GetMassUnit());
                 dataCommon.Add(27, GetSizeUnit());
                 dataCommon.Add(28, "true");
+                dataCommon.Add(30, tovarObject.Description);
+                dataCommon.Add(31, tovarObject.Description);
 
-                // поле Seo_Title
-                dataCommon.Add(33, textName);
+                // поле meta_Title
+                string meta_Title = tovarObject.Name;
+                dataCommon.Add(32, meta_Title);
+                dataCommon.Add(33, meta_Title);
 
-                // поле Meta_Description
-                dataCommon.Add(35, textName + " — купить от Газнефтесервис в Уфе. Гарантия до 5 лет. Сервис 24 часа в сутки.");
+                // поле meta_Description
+                string meta_Description = tovarObject.Name + " — лучшая цена, доставка по всей России!";
+                dataCommon.Add(34, meta_Description);
+                dataCommon.Add(35, meta_Description);
 
-                // поле Meta_KeyWords
-                dataCommon.Add(37, String.Format("{0}, {1}, купить в Уфе", textName, "" /*categName*/));
-                dataCommon.Add(38, "5");
-                dataCommon.Add(39, "0");
+                // поле meta_KeyWords
+                string meta_KeyWords = MakeMetaKeywords(tovarObject.Name);
+                dataCommon.Add(36, meta_KeyWords);
+                dataCommon.Add(37, meta_KeyWords);
 
                 // поле Seo_H1
-                dataCommon.Add(43, String.Format("{0} купить в Уфе от Газнефтесервис по лучшей цене c гарантией", textName));
+                dataCommon.Add(43, meta_Description);
 
                 dataCommon.Add(44, "1");
                 dataCommon.Add(45, "true");
@@ -82,7 +92,7 @@ namespace MultyParser.Opencart
                 pairs.Add(3, "0");
                 result.Add(pairs);
             }
-            pageName = OpencartResultBookCreater.IMAGES_PAGE_NAME;
+            pageName = OpencartProductBookCreater.IMAGES_PAGE_NAME;
             return result;
         }
 
@@ -132,7 +142,7 @@ namespace MultyParser.Opencart
                 }
             }
 
-            pageName = OpencartResultBookCreater.ATTRIBUTES_PAGE_NAME;
+            pageName = OpencartProductBookCreater.ATTRIBUTES_PAGE_NAME;
             return result;
         }
 
@@ -142,7 +152,7 @@ namespace MultyParser.Opencart
             values.Add(1, tovarID.ToString());
             values.Add(2, this.GetMainOption());
             values.Add(4, "true");
-            pageName = OpencartResultBookCreater.OPTIONS_PAGE_NAME;
+            pageName = OpencartProductBookCreater.OPTIONS_PAGE_NAME;
             return new List<Dictionary<int, string>> { values };
         }
 
@@ -160,7 +170,7 @@ namespace MultyParser.Opencart
             values.Add(9, "+");
             values.Add(10, "0");
             values.Add(11, "+");
-            pageName = OpencartResultBookCreater.OPTION_VALUES_PAGE_NAME;
+            pageName = OpencartProductBookCreater.OPTION_VALUES_PAGE_NAME;
             return new List<Dictionary<int, string>> { values };
         }
 
@@ -173,7 +183,7 @@ namespace MultyParser.Opencart
             pairs.Add(2, "0");
             pairs.Add(3, "en-" + title);
             pairs.Add(4, title);
-            pageName = OpencartResultBookCreater.SEO_PAGE_NAME;
+            pageName = OpencartProductBookCreater.SEO_PAGE_NAME;
             return pairs;
         }
     }

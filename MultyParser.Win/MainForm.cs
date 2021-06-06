@@ -14,6 +14,7 @@ using MultyParser.Opencart;
 
 using MultyParser.Configuration;
 using System.Configuration;
+using MultyParser.Core.Html;
 
 namespace MultyParser.Win
 {
@@ -28,6 +29,10 @@ namespace MultyParser.Win
                 return this.bgPriceWorker;
             }
         }
+
+        public ParserBase ActiveParserObject { get; set; }
+
+        public DoWorkEventArgs WorkerArgs { get; set; }
 
         public MainForm()
         {
@@ -56,9 +61,7 @@ namespace MultyParser.Win
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MultyParserConfigSection configSection =
-                (MultyParserConfigSection)ConfigurationManager.GetSection("MultyParserConfigSection");
-            MultyParserApp.InitConfiguration(configSection);
+            MultyParserApp.InitConfiguration(MultyParserConfigSection.Settings);
             this.FillListOfFiles();
         }
 
@@ -99,6 +102,22 @@ namespace MultyParser.Win
             }
         }
 
+        private void cmdParseUrlOptions_Click(object sender, EventArgs e)
+        {
+            EnterSiteUrl siteDialog = new EnterSiteUrl(this);
+            if (siteDialog.ShowDialog() == DialogResult.OK)
+            {
+                //ParseSiteUrl(siteDialog.SelectedUrl);
+                //formDialog = new ProgressDialog(this);
+                //ParseSingleFile(openDialog.FileName);
+                formDialog = new ProgressDialog(this);
+                Object[] args = new Object[] { 3, siteDialog.SelectedUrl };
+                bgPriceWorker.RunWorkerAsync(args);
+                formDialog.ResetParams();
+                formDialog.ShowDialog();
+            }
+        }
+
         #region Функции потока обработки файлов
 
         private void bgPriceWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -106,11 +125,12 @@ namespace MultyParser.Win
             int argType = Int32.Parse(((Object[])e.Argument)[0].ToString());
             /*TableReaderApp.SetProgressDelegate = 
                 new TableParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress);*/
-            MultyParserApp.WorkerArgs = e;
+            this.WorkerArgs = e;
             switch (argType)
             {
-                case 1: ParseExcelFile(((Object[])e.Argument)[1].ToString()); break;
-                case 2: ParseSiteUrl(((Object[])e.Argument)[1].ToString()); break;
+                //case 1: ParseExcelFile(((Object[])e.Argument)[1].ToString()); break;
+                case 2: ParseSiteUrl(((Object[])e.Argument)[1].ToString(), ParserBase.PARSER_FOR_PRODUCTS); break;
+                case 3: ParseSiteUrl(((Object[])e.Argument)[1].ToString(), ParserBase.PARSER_FOR_OPTIONS); break;
             }
         }
 
@@ -127,16 +147,49 @@ namespace MultyParser.Win
 
         private void ParseExcelFile(string fileName)
         {
-            ExcelBook book = ExcelBook.Open(fileName);
+            /*ExcelBook book = ExcelBook.Open(fileName);
             MultyParserApp.DoParsingOfExcelBook(book, txtResultFile.Text,
                 new ParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress));
-            book.Close();
+            book.Close();*/
         }
 
-        private void ParseSiteUrl(string siteUrl)
+        private void ParseSiteUrl(string siteUrl, int parserKind, string reportTemplate = null)
         {
-            MultyParserApp.DoParsingOfWebSite(siteUrl, txtResultFile.Text,
-                new ParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress));
+            HtmlParserCreaterBase creater = MultyParserApp.SelectHtmlParserCreater(siteUrl, System.Windows.Forms.Application.StartupPath + "\\Modules");
+            if (creater != null)
+            {
+                switch (parserKind)
+                {
+                    case ParserBase.PARSER_FOR_PRODUCTS: ActiveParserObject = creater.GetParserObjectForProducts(); break;
+                    case ParserBase.PARSER_FOR_OPTIONS: ActiveParserObject = creater.GetParserObjectForOptions(); break;
+                }
+                
+                HtmlParserBase htmlParser = ActiveParserObject as HtmlParserBase;
+                ActiveParserObject.CurrentPageNum = 0;
+                ActiveParserObject.CurrentParsingTitle = "Сайт: " + htmlParser.GetSiteName();
+                ActiveParserObject.TotalPages = htmlParser.CountPages(siteUrl);
+                string templateFile = (reportTemplate != null) ? reportTemplate : ActiveParserObject.GetDefaultTemplate();
+                string dep = htmlParser.GetDepartmentByUrl(siteUrl);
+                ActiveParserObject.ResultBookCreater.Init(dep, templateFile, htmlParser.GetSiteName());
+
+                int volumeSize = ActiveParserObject.GetVolumeSize();
+                if (volumeSize != 0)
+                    ActiveParserObject.ResultBookCreater.VolumeSize = volumeSize;
+
+                ActiveParserObject.SetProgressValue +=
+                    new ParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress);
+
+                // Достаём из конфига текущее значение идентификатора товара
+                System.Configuration.Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                ActiveParserObject.EntityID = Int32.Parse(currentConfig.AppSettings.Settings["identValue"].Value);
+
+                htmlParser.DoParsingOfIncomingHtml(siteUrl, WorkerArgs); // запускаем парсинг веб-страницы
+
+                // Сохраняем новое значение идентификатора
+                currentConfig.AppSettings.Settings["identValue"].Value = ActiveParserObject.EntityID.ToString();
+                currentConfig.Save();
+                ConfigurationManager.RefreshSection("appSettings");
+            }
         }
 
         private void ParseDirectory(string sDirName)
@@ -159,7 +212,7 @@ namespace MultyParser.Win
         public void CancelPocessing()
         {
             PriceProcess.CancelAsync();
-            MultyParserApp.WorkerArgs.Cancel = true;
+            this.WorkerArgs.Cancel = true;
         }
 
         #endregion

@@ -4,9 +4,10 @@ using System.Text;
 
 namespace MultyParser.Core.Excel
 {
-    public abstract class ExcelParserCreaterBase
+    public abstract class ExcelParserCreaterBase : IParserCreater
     {
-        public abstract ExcelParserBase GetExcelParserObject();
+        public virtual ParserBase GetParserObjectForProducts() => null;
+        public virtual ParserBase GetParserObjectForOptions() => null;
 
         public virtual bool DetectIncomingPageForParserClass(ExcelPage page)
         {

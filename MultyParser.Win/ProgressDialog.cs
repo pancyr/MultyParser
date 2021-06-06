@@ -33,10 +33,11 @@ namespace MultyParser.Win
 
         public void SetProgressParams(int currentRow)
         {
-            this.Text = MultyParserApp.CurrentParsingTitle;
-            this.lblPageCount.Text = String.Format("Лист {0} из {1}", MultyParserApp.CurrentPageNum, MultyParserApp.TotalPages);
-            this.lblPagePos.Text = String.Format("Обработка строки {0} из {1}", currentRow, MultyParserApp.TotalRows);
-            double percent = (double)currentRow / MultyParserApp.TotalRows * 100;
+            ParserBase parser = ((MainForm)this.Owner).ActiveParserObject;
+            this.Text = parser.CurrentParsingTitle;
+            this.lblPageCount.Text = String.Format("Лист {0} из {1}", parser.CurrentPageNum, parser.TotalPages);
+            this.lblPagePos.Text = String.Format("Обработка строки {0} из {1}", currentRow, parser.TotalRows);
+            double percent = (double)currentRow / parser.TotalRows * 100;
             progressBar.Value = (int)percent;
         }
     }

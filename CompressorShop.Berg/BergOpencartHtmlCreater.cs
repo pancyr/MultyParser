@@ -4,9 +4,9 @@ using MultyParser.Core.Html;
 namespace CompressorShop.Berg
 {
     [SiteUrl("berg-air.ru")]
-    public class AbacOpencartHtmlCreater : HtmlParserCreaterBase
+    public class BergOpencartHtmlCreater : HtmlParserCreaterBase
     {
-        public override HtmlParserBase GetHtmlParserObject()
+        public override ParserBase GetParserObjectForProducts()
         {
             return new BergOpencartHtmlParser();
         }

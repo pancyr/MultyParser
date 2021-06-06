@@ -40,6 +40,7 @@ namespace MultyParser.Win
             this.label1 = new System.Windows.Forms.Label();
             this.cmdBrowse = new System.Windows.Forms.Button();
             this.cmdParseUrl = new System.Windows.Forms.Button();
+            this.cmdParseUrlOptions = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listView1
@@ -137,11 +138,24 @@ namespace MultyParser.Win
             this.cmdParseUrl.UseVisualStyleBackColor = true;
             this.cmdParseUrl.Click += new System.EventHandler(this.cmdParseUrl_Click);
             // 
+            // cmdParseUrlOptions
+            // 
+            this.cmdParseUrlOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdParseUrlOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmdParseUrlOptions.Location = new System.Drawing.Point(596, 88);
+            this.cmdParseUrlOptions.Name = "cmdParseUrlOptions";
+            this.cmdParseUrlOptions.Size = new System.Drawing.Size(226, 32);
+            this.cmdParseUrlOptions.TabIndex = 16;
+            this.cmdParseUrlOptions.Text = "Опции с сайта";
+            this.cmdParseUrlOptions.UseVisualStyleBackColor = true;
+            this.cmdParseUrlOptions.Click += new System.EventHandler(this.cmdParseUrlOptions_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(834, 450);
+            this.Controls.Add(this.cmdParseUrlOptions);
             this.Controls.Add(this.cmdParseUrl);
             this.Controls.Add(this.cmdBrowse);
             this.Controls.Add(this.label1);
@@ -170,6 +184,7 @@ namespace MultyParser.Win
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button cmdBrowse;
         private System.Windows.Forms.Button cmdParseUrl;
+        private System.Windows.Forms.Button cmdParseUrlOptions;
     }
 }
 

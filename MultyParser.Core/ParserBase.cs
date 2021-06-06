@@ -2,17 +2,27 @@
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.IO;
+
+using MultyParser.Configuration;
 
 namespace MultyParser.Core
 {
     public abstract class ParserBase
     {
+        public const int PARSER_FOR_PRODUCTS = 1;
+        public const int PARSER_FOR_OPTIONS = 2;
+
         public ParserBase()
         {
             this.SeoTitlesStorage = new Dictionary<string, int>();
         }
 
-        public DoWorkEventArgs WorkerArgs { get; set; }
+        public int EntityID; // идентификатор сущности
+        public string CurrentParsingTitle { get; set; }
+        public int CurrentPageNum { get; set; }
+        public int TotalPages { get; set; }
+        public int TotalRows { get; set; }
 
         protected ResultBookCreaterBase _resultBookCreater;
         public ResultBookCreaterBase ResultBookCreater
@@ -20,6 +30,33 @@ namespace MultyParser.Core
             get
             {
                 return _resultBookCreater;
+            }
+        }
+
+        protected Dictionary<string, string> _templates;
+        public Dictionary<string, string> Templates
+        {
+            get
+            {
+                if (_templates == null)
+                {
+                    _templates = new Dictionary<string, string>();
+                    Object[] attrs = this.GetType().GetCustomAttributes(typeof(TemplateSetAttribute), true);
+                    if (attrs != null)
+                    {
+                        TemplateSetAttribute setOfClass = attrs[0] as TemplateSetAttribute;
+                        foreach (TemplateSetConfigElement set in MultyParserConfigSection.Settings.TemplateSets)
+                            if (set.System == setOfClass.Name)
+                            {
+                                string subDir = set.Dir;
+                                if (!subDir.EndsWith("\\"))
+                                    subDir += "\\";
+                                foreach (TemplateConfigElement template in set.TemplateList)
+                                    _templates.Add(template.Code, Path.GetFullPath(subDir + template.File));
+                            }
+                    }
+                }
+                return _templates;
             }
         }
 
@@ -36,24 +73,32 @@ namespace MultyParser.Core
             return title;
         }
 
+        protected virtual string MakeMetaKeywords(string tovarName)
+        {
+            var keywordSet = MultyParserConfigSection.Settings.KeywordPatterns;
+            string result = "";
+            foreach (KeywordPatternConfigElement keyword in keywordSet)
+            {
+                if (result.Length > 0)
+                    result += ", ";
+                result += String.Format(keyword.Value, tovarName);
+            }
+            return result;
+        }
+
         protected string GetPrice(string input)
         {
-            string result = Regex.Replace(input, @"[^\d,.]", "").Replace(".", ",");
-            Regex regPrice = new Regex(@"\d+(,\d+)?");
+            string result = Regex.Replace(input, @"[^\d,.]", "").Replace(",", ".");
+            Regex regPrice = new Regex(@"\d+(.\d+)?");
             Match m = regPrice.Match(result);
             return (m.Success) ? m.ToString() : "";
         }
 
-
-        protected abstract Dictionary<int, string> MakeDictionaryForAttributesPageRow(int tovarID, string groupName, string attributeName, string value);
-
-        protected abstract string GetCodeOfTovarGroup();
-        protected abstract Dictionary<string, int> GetSpecifications();
-
         protected virtual string GetBrandName() => null;    // после названия бренда может быть написана модель
         protected virtual string GetMainOption() => null;   // для выделения опции из названия
 
-        public virtual int GetVolumeSize() => 0;         // если нужно изменить размер тома
+        public virtual string GetDefaultTemplate() => null; // шаблон по умолчанию для импорта товаров
+        public virtual int GetVolumeSize() => 0;            // если нужно изменить размер тома
 
         protected virtual List<int> GetListIntFromString(string input)
         {

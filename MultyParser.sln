@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultyParser.Configuration",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressorShop.Berg", "CompressorShop.Berg\CompressorShop.Berg.csproj", "{F7AC1BA5-8D5E-4E57-8A92-B73582951578}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultyParser.Bitrix", "MultyParser.Bitrix\MultyParser.Bitrix.csproj", "{39F17E72-D567-4304-835C-50BADD0FE3BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velveto.Conte", "Velveto.Conte\Velveto.Conte.csproj", "{9721088B-BD0B-4AF1-BFC4-66EA4ABE597E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{F7AC1BA5-8D5E-4E57-8A92-B73582951578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7AC1BA5-8D5E-4E57-8A92-B73582951578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7AC1BA5-8D5E-4E57-8A92-B73582951578}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39F17E72-D567-4304-835C-50BADD0FE3BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39F17E72-D567-4304-835C-50BADD0FE3BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39F17E72-D567-4304-835C-50BADD0FE3BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39F17E72-D567-4304-835C-50BADD0FE3BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9721088B-BD0B-4AF1-BFC4-66EA4ABE597E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9721088B-BD0B-4AF1-BFC4-66EA4ABE597E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9721088B-BD0B-4AF1-BFC4-66EA4ABE597E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9721088B-BD0B-4AF1-BFC4-66EA4ABE597E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

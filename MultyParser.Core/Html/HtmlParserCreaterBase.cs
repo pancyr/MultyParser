@@ -3,9 +3,10 @@ using MultyParser.Core;
 
 namespace MultyParser.Core.Html
 {
-    public abstract class HtmlParserCreaterBase
+    public abstract class HtmlParserCreaterBase : IParserCreater
     {
-        public abstract HtmlParserBase GetHtmlParserObject();
+        public virtual ParserBase GetParserObjectForProducts() => null;
+        public virtual ParserBase GetParserObjectForOptions() => null;
 
         public virtual bool DetectIncomingLinkForParserClass(string link)
         {

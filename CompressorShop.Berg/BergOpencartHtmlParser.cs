@@ -10,7 +10,7 @@ using MultyParser.Opencart;
 namespace CompressorShop.Berg
 {
     [SiteUrl("berg-air.ru")]
-    public class BergOpencartHtmlParser : OpencartHtmlParserBase
+    public class BergOpencartHtmlParser : OpencartProductHtmlParserBase
     {
         public override string GetSiteName() => "berg-air.ru";
 
