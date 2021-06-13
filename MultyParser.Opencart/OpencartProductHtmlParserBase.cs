@@ -37,7 +37,7 @@ namespace MultyParser.Opencart
                 }
                 string meta_Description = tovarObject.Name + " — лучшая цена, доставка по всей России!";
                 return ProductBookCreater.MakeLineForProductPage(
-                    tovarID, tovarObject.Name, "10,100,120", 1000, "Conte", 
+                    tovarID, tovarObject.Name, DepartmentCategories[DepartmentName], 1000, "Conte", 
                     photiUrl, tovarObject.Price, GetMassUnit(), GetSizeUnit(), tovarObject.Description,
                     tovarObject.Name, meta_Description, MakeMetaKeywords(tovarObject.Name));
             }

@@ -34,6 +34,26 @@ namespace Velveto.Conte
 
         protected override string GetCodeOfTovarGroup() => "TIGHTS";
 
+        private Dictionary<string, string> _departmentCategories;
+        public override Dictionary<string, string> DepartmentCategories
+        {
+            get
+            {
+                if (_departmentCategories == null)
+                    _departmentCategories = new Dictionary<string, string>
+                    {
+                        {"klassicheskie", "10,100,110"},
+                        {"korrektiruyuschie", "10,100,120"},
+                        {"fantaziynye", "10,100,130"},
+                        {"azhurnye", "10,100,140"},
+                        {"teplye", "10,100,150"},
+                        {"svadebnye", "10,100,160"},
+                        {"dlya-beremennyh", "10,100,170"}
+                    };
+                return _departmentCategories;
+            }
+        }
+
         protected override DictionaryOfOptionsBase GetOptionsOfTovar()
         {
             return new VelvetoDictionaryOfOptions();

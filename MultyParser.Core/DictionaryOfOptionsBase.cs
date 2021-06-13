@@ -31,7 +31,7 @@ namespace MultyParser.Core
                     if (tags.Count() > 0)
                     {
                         commonStringFound = true;
-                        List<string> values = option.ParseValuesFromString(tags.First().InnerHtml);
+                        List<string> values = option.ParseValuesFromString(tags.First().TextContent);
                         foreach (string val in values)
                         {
                             if (!Members[option].Contains(val))

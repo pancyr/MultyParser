@@ -16,6 +16,8 @@ namespace MultyParser.Core
 
         public ParserBase() { }
 
+        public string DepartmentName { get; set; } // подраздел
+
         public int EntityID; // идентификатор сущности
         public string CurrentParsingTitle { get; set; }
         public int CurrentPageNum { get; set; }

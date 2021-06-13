@@ -26,6 +26,8 @@ namespace MultyParser.Core.Html
 
         public override ReportBookCreaterBase GetBookCreaterObject() => ProductBookCreater;
 
+        public virtual Dictionary<string, string> DepartmentCategories => null;
+
         /* Обязательные параметры, которые должны быть определены в производных классах */
         protected abstract string GetSelectorForTovarName();                // селектор названия товара
         protected abstract string GetSelectorForPrice();                    // селектор для цены
@@ -46,7 +48,6 @@ namespace MultyParser.Core.Html
         protected Dictionary<string, int> ParserSpecifications; // названия спецификаций на сайте - из парсера
         protected Dictionary<string, int> ForTransfer;          // то что перенести в основную таблицу - тоже
 
-        //protected abstract Dictionary<int, object> MakeDictionaryForAttributesPageRow(int tovarID, string groupName, string attributeName, string value);
         protected abstract string GetCodeOfTovarGroup();
         protected abstract Dictionary<string, int> GetSpecifications();
 

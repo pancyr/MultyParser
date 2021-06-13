@@ -168,13 +168,15 @@ namespace MultyParser.Win
                 ActiveParserObject.CurrentPageNum = 0;
                 ActiveParserObject.CurrentParsingTitle = "Сайт: " + htmlParser.GetSiteName();
                 ActiveParserObject.TotalPages = htmlParser.CountPages(siteUrl);
+                ActiveParserObject.DepartmentName = htmlParser.GetDepartmentByUrl(siteUrl);
+
                 string templateFile = (reportTemplate != null) ? reportTemplate : ActiveParserObject.GetDefaultTemplate();
-                string dep = htmlParser.GetDepartmentByUrl(siteUrl);
 
+                string fileName = ActiveParserObject.DepartmentName;
                 if (parserKind == ParserBase.PARSER_FOR_OPTIONS)
-                    dep += "-options";
+                    fileName += "-options";
 
-                ActiveParserObject.GetBookCreaterObject().Init(dep, templateFile, htmlParser.GetSiteName());
+                ActiveParserObject.GetBookCreaterObject().Init(fileName, templateFile, htmlParser.GetSiteName());
 
                 int volumeSize = ActiveParserObject.GetVolumeSize();
                 if (volumeSize != 0)
