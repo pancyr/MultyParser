@@ -26,7 +26,7 @@ namespace CompressorShop.Berg
         protected override string GetTableCellValue() => "div.catalog-element-section-property-value";
 
         protected override string GetBrandName() => "Berg";
-        protected override string GetMainOption() => "Давление";
+        protected override string GetMainOptionName() => "Давление";
 
         public override int GetVolumeSize() => 20;
 
@@ -51,16 +51,16 @@ namespace CompressorShop.Berg
             return result;
         }
 
-        protected override List<Dictionary<int, string>> GatherAttributesFromTovarObject(
-            int tovarID, HtmlTovar tovarObject, TovarGroup tovarGroup, Dictionary<int, string> dataCommon, 
+        protected override List<Dictionary<int, object>> GatherAttributesFromTovarObject(
+            int tovarID, HtmlTovar tovarObject, TovarGroup tovarGroup, Dictionary<int, object> dataCommon, 
             Dictionary<string, int> parserSpecifications, Dictionary<string, int> forTransfer, out string pageName)
         {
             // получаем список атрибутов из базового класса
-            List<Dictionary<int, string>> result = base.GatherAttributesFromTovarObject
+            List<Dictionary<int, object>> result = base.GatherAttributesFromTovarObject
                 (tovarID, tovarObject, tovarGroup, dataCommon, parserSpecifications, forTransfer, out pageName);
             
             // переводим кубометры в литры
-            decimal performance = Decimal.Parse(result[0][5].Replace(".", ","));
+            decimal performance = Decimal.Parse(result[0][5].ToString().Replace(".", ","));
             result[0][5] = (performance * 1000).ToString("N0");
 
             // извлекаем метрические данные
@@ -80,7 +80,7 @@ namespace CompressorShop.Berg
             else if (tovarObject.Name.ToUpper().IndexOf("СПИР") > -1)
                 compressType = "Спиральный";
             if (compressType != null)
-                result.Add(this.MakeDictionaryForAttributesPageRow(
+                result.Add(ProductBookCreater.MakeLineForAttribute(
                     tovarID, tovarGroup.DisplayName, "Вид компрессора", compressType));
 
             return result;

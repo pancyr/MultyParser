@@ -1,5 +1,6 @@
 ﻿using MultyParser.Core;
 using MultyParser.Core.Excel;
+using MultyParser.Core.ExcelBookCreaters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MultyParser.Bitrix
 {
-    public class BitrixResultBookCreater : ResultBookCreaterBase
+    public class BitrixResultBookCreater : ProductBookCreaterBase
     {
         public const string PRODUCTS_PAGE_NAME = "Products";
         public const string IMAGES_PAGE_NAME = "AdditionalImages";
@@ -19,30 +20,30 @@ namespace MultyParser.Bitrix
 
         protected override ExcelBook CreateBookForResultData(string filePath = null)
         {
-            Dictionary<string, Dictionary<int, string>> titles =
-                new Dictionary<string, Dictionary<int, string>>();
+            Dictionary<string, Dictionary<int, object>> titles =
+                new Dictionary<string, Dictionary<int, object>>();
 
-            titles.Add(PRODUCTS_PAGE_NAME, new Dictionary<int, string>
+            titles.Add(PRODUCTS_PAGE_NAME, new Dictionary<int, object>
             {
                 [1] = "product_id",
                 [2] = "name(en-gb)",
                 [3] = "name(ru-ru)",
                 [4] = "categories"
             });
-            titles.Add(IMAGES_PAGE_NAME, new Dictionary<int, string>
+            titles.Add(IMAGES_PAGE_NAME, new Dictionary<int, object>
             {
                 [1] = "product_id",
                 [2] = "image",
                 [3] = "sort_order"
             });
-            titles.Add(OPTIONS_PAGE_NAME, new Dictionary<int, string>
+            titles.Add(OPTIONS_PAGE_NAME, new Dictionary<int, object>
             {
                 [1] = "product_id",
                 [2] = "option",
                 [3] = "default_option_value",
                 [4] = "required"
             });
-            titles.Add(OPTION_VALUES_PAGE_NAME, new Dictionary<int, string>
+            titles.Add(OPTION_VALUES_PAGE_NAME, new Dictionary<int, object>
             {
                 [1] = "product_id",
                 [2] = "option",
@@ -56,7 +57,7 @@ namespace MultyParser.Bitrix
                 [10] = "weight",
                 [11] = "weight_prefix"
             });
-            titles.Add(ATTRIBUTES_PAGE_NAME, new Dictionary<int, string>
+            titles.Add(ATTRIBUTES_PAGE_NAME, new Dictionary<int, object>
             {
                 [1] = "product_id",
                 [2] = "attribute_group",
@@ -64,7 +65,7 @@ namespace MultyParser.Bitrix
                 [4] = "text (en-gb)",
                 [5] = "text (ru-ru)"
             });
-            titles.Add(SEO_PAGE_NAME, new Dictionary<int, string>
+            titles.Add(SEO_PAGE_NAME, new Dictionary<int, object>
             {
                 [1] = "product_id",
                 [2] = "store_id",
@@ -79,6 +80,36 @@ namespace MultyParser.Bitrix
             result.Pages[PRODUCTS_PAGE_NAME].MakeColumnStringFormat(20);
             result.Pages[PRODUCTS_PAGE_NAME].MakeColumnStringFormat(21);
             return result;
+        }
+
+        public override Dictionary<int, object> MakeLineForProductPage(int tovarID, string tovarName, string groups, int quantity, string brand, string mainPhoto, string price, string massUnit, string sizeUnit, string description, string metaTitle, string metaDescription, string metaKeywords)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Dictionary<int, object> MakeLineForAdditionalImage(int tovarID, string imagePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Dictionary<int, object> MakeLineForOption(int tovarID, string optionName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Dictionary<int, object> MakeLineForOptionValue(int tovarID, string optionName, string optionValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Dictionary<int, object> MakeLineForAttribute(int tovarID, string groupName, string attributeName, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Dictionary<int, object> MakeLineForSeoUrl(int tovarID, string productName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

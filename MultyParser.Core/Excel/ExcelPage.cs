@@ -261,7 +261,7 @@ namespace MultyParser.Core.Excel
 
         #region Функции редактирования ячеек
 
-        public void OutputCell(int row, int column, string value) => GetCell(row, column).Value2 = value;
+        public void OutputCell(int row, int column, object value) => GetCell(row, column).Value2 = value;
 
         public void MakeCellBold(int row, int column) => GetCell(row, column).Font.Bold = true;
         public void MakeCellItalic(int row, int column) => GetCell(row, column).Font.Italic = true;
@@ -399,7 +399,15 @@ namespace MultyParser.Core.Excel
             return true;
         }
 
-        public bool WriteLine(Dictionary<int, string> values, bool bold = false, bool italic = false, bool underline = false)
+        public bool MakeColumnStringFormat(int[] numbers)
+        {
+            foreach (int num in numbers)
+                MakeColumnStringFormat(num);
+            return true;
+        }
+
+
+        public bool WriteLine(Dictionary<int, object> values, bool bold = false, bool italic = false, bool underline = false)
         {
             foreach (int key in values.Keys)
             {

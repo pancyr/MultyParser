@@ -11,12 +11,14 @@ namespace MultyParser.Core.Html
         public string Name { get; set; }
         public string Categories { get; set; }
         public string Group { get; set; }
-        public string Option { get; set; }
+        public string MainOptionValue { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public string Description { get; set; }
         public string Price { get; set; }
         public List<string> Photos { get; set; }
+
+        public DictionaryOfOptionsBase Options { get; set; }
 
         protected Dictionary<string, string> _specifications;
         public Dictionary<string, string> Specifications

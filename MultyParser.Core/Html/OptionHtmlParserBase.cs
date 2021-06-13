@@ -9,55 +9,52 @@ using AngleSharp;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using AngleSharp.Dom;
+using MultyParser.Core.ExcelBookCreaters;
 
 namespace MultyParser.Core.Html
 {
     public abstract class OptionHtmlParserBase : HtmlParserBase
     {
-        public Dictionary<HtmlOption, List<string>> DictionaryOfOptions { get; set; }
+        protected OptionBookCreaterBase _optionBookCreater;
+        public OptionBookCreaterBase OptionBookCreater
+        {
+            get
+            {
+                return _optionBookCreater;
+            }
+        }
 
-        protected abstract Dictionary<HtmlOption, List<string>> GetDictionaryOfOptions();
+        public override ReportBookCreaterBase GetBookCreaterObject() => OptionBookCreater;
+
+        /* Справочник опций - он будет заполнен при обходе страниц товара */
+        public DictionaryOfOptionsBase Options { get; set; }
 
         /* Получение опции товара из словаря */
-        protected abstract List<Dictionary<int, string>> GatherOptionFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName);
+        protected abstract List<Dictionary<int, object>> GatherOptionFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName);
 
         /* Получение значения опции товара из словаря */
-        protected abstract List<Dictionary<int, string>> GatherOptionValueFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName);
-
-        protected override void BeforeEntityLoop()
-        {
-            DictionaryOfOptions = this.GetDictionaryOfOptions();
-        }
+        protected abstract List<Dictionary<int, object>> GatherOptionValueFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName);
 
         protected override void ProcessingEntityInLoop(IHtmlDocument docDetails)
         {
-            foreach (HtmlOption option in DictionaryOfOptions.Keys)
-            {
-                var listItems = docDetails.QuerySelectorAll(option.HtmlSelector);
-                foreach (var item in listItems)
-                {
-                    string optionName = item.TextContent.Trim();
-                    if (option.TestRegular(optionName) && !DictionaryOfOptions[option].Contains(optionName))
-                        DictionaryOfOptions[option].Add(optionName);
-                }
-            }
+            Options.ReadOptionValuesFromDocument(docDetails);
         }
 
         protected override void AfterEntityLoop()
         {
             string pageName;
-            Dictionary<string, List<Dictionary<int, string>>> rowsForBook
-                = new Dictionary<string, List<Dictionary<int, string>>>();
+            Dictionary<string, List<Dictionary<int, object>>> rowsForBook
+                = new Dictionary<string, List<Dictionary<int, object>>>();
 
             /* Формируем страницу с опциями */
-            List<Dictionary<int, string>> dataOptions = this.GatherOptionFromDictionary(DictionaryOfOptions, out pageName);
+            List<Dictionary<int, object>> dataOptions = this.GatherOptionFromDictionary(Options.Members, out pageName);
             rowsForBook.Add(pageName, dataOptions);
 
             /* Формируем страницу со значениями опций */
-            List<Dictionary<int, string>> dataValues = this.GatherOptionValueFromDictionary(DictionaryOfOptions, out pageName);
+            List<Dictionary<int, object>> dataValues = this.GatherOptionValueFromDictionary(Options.Members, out pageName);
             rowsForBook.Add(pageName, dataValues);
 
-            ResultBookCreater.WriteDataToBook(rowsForBook);
+            OptionBookCreater.WriteDataToBook(rowsForBook);
         }
     }
 }

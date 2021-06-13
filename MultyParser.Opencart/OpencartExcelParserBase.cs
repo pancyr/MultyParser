@@ -6,7 +6,7 @@ namespace MultyParser.Opencart
     {
         public OpencartExcelParserBase()
         {
-            this._resultBookCreater = new OpencartProductBookCreater();
+            //this._ = new OpencartProductBookCreater();
         }
     }
 }

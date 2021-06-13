@@ -6,7 +6,7 @@ namespace MultyParser.Bitrix
     {
         public BitrixHtmlParserBase()
         {
-            this._resultBookCreater = new BitrixResultBookCreater();
+            //this._resultBookCreater = new BitrixResultBookCreater();
         }
     }
 }

@@ -15,17 +15,17 @@ namespace MultyParser.Opencart
 
         public OpencartOptionHtmlParserBase()
         {
-            this._resultBookCreater = new OpencartOptionBookCreater();
+            this._optionBookCreater = new OpencartOptionBookCreater();
         }
 
         public override string GetDefaultTemplate() => this.Templates["OPTI"];
 
-        protected override List<Dictionary<int, string>> GatherOptionFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName)
+        protected override List<Dictionary<int, object>> GatherOptionFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName)
         {
-            List<Dictionary<int, string>> result = new List<Dictionary<int, string>>();
+            List<Dictionary<int, object>> result = new List<Dictionary<int, object>>();
             foreach (HtmlOption opt in options.Keys)
             {
-                Dictionary<int, string> pairs = new Dictionary<int, string>();
+                Dictionary<int, object> pairs = new Dictionary<int, object>();
                 pairs.Add(1, opt.ID.ToString());
                 pairs.Add(2, opt.Type);
                 pairs.Add(3, opt.SortOrder.ToString());
@@ -37,23 +37,23 @@ namespace MultyParser.Opencart
             return result;
         }
 
-        protected override List<Dictionary<int, string>> GatherOptionValueFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName)
+        protected override List<Dictionary<int, object>> GatherOptionValueFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName)
         {
-            List<Dictionary<int, string>> result = new List<Dictionary<int, string>>();
+            List<Dictionary<int, object>> result = new List<Dictionary<int, object>>();
             foreach (HtmlOption opt in options.Keys)
             {
                 options[opt].Sort();
-                ResultBookCreater.EntityPos = 1;
+                OptionBookCreater.EntityPos = 1;
                 foreach (string str in options[opt])
                 {
-                    Dictionary<int, string> pairs = new Dictionary<int, string>();
-                    pairs.Add(1, (opt.ID + ResultBookCreater.EntityPos).ToString());
+                    Dictionary<int, object> pairs = new Dictionary<int, object>();
+                    pairs.Add(1, (opt.ID + OptionBookCreater.EntityPos).ToString());
                     pairs.Add(2, opt.ID.ToString());
-                    pairs.Add(4, ResultBookCreater.EntityPos.ToString());
+                    pairs.Add(4, OptionBookCreater.EntityPos.ToString());
                     pairs.Add(5, str);
                     pairs.Add(6, str);
                     result.Add(pairs);
-                    ResultBookCreater.EntityPos++;
+                    OptionBookCreater.EntityPos++;
                 }
             }
             pageName = OpencartOptionBookCreater.OPTION_VALUES_PAGE_NAME;

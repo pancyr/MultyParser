@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 using MultyParser.Core.Excel;
 
-namespace MultyParser.Core
+namespace MultyParser.Core.ExcelBookCreaters
 {
-    public abstract class ResultBookCreaterBase
+    public abstract class ReportBookCreaterBase
     {
         protected abstract ExcelBook CreateBookForResultData(string filePath = null);
 
@@ -49,13 +49,13 @@ namespace MultyParser.Core
             this._book = null;
         }
 
-        public virtual bool WriteDataToBook(Dictionary<string, List<Dictionary<int, string>>> argsData)
+        public virtual bool WriteDataToBook(Dictionary<string, List<Dictionary<int, object>>> argsData)
         {
             foreach (string key in argsData.Keys)
             {
                 ExcelPage page = Book.Pages[key];
-                List<Dictionary<int, string>> listOfRows = argsData[key];
-                foreach (Dictionary<int, string> values in listOfRows)
+                List<Dictionary<int, object>> listOfRows = argsData[key];
+                foreach (Dictionary<int, object> values in listOfRows)
                     WriteLineToPage(page, values);
             }
             if (VolumeSize != 0)
@@ -69,7 +69,7 @@ namespace MultyParser.Core
             return true;
         }
 
-        protected virtual bool WriteLineToPage(ExcelPage page, Dictionary<int, string> values)
+        protected virtual bool WriteLineToPage(ExcelPage page, Dictionary<int, object> values)
         {
             return page.WriteLine(values);
         }
@@ -107,7 +107,7 @@ namespace MultyParser.Core
             this.ResetBook();
         }
 
-        protected virtual ExcelBook CreateBookForResultData(Dictionary<string, Dictionary<int, string>> titlesOfPages, string filePath)
+        protected virtual ExcelBook CreateBookForResultData(Dictionary<string, Dictionary<int, object>> titlesOfPages, string filePath)
         {
             List<string> keys = new List<string>();
             foreach (string key in titlesOfPages.Keys)

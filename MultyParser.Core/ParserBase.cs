@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using MultyParser.Configuration;
+using MultyParser.Core.ExcelBookCreaters;
 
 namespace MultyParser.Core
 {
@@ -13,10 +14,7 @@ namespace MultyParser.Core
         public const int PARSER_FOR_PRODUCTS = 1;
         public const int PARSER_FOR_OPTIONS = 2;
 
-        public ParserBase()
-        {
-            this.SeoTitlesStorage = new Dictionary<string, int>();
-        }
+        public ParserBase() { }
 
         public int EntityID; // идентификатор сущности
         public string CurrentParsingTitle { get; set; }
@@ -24,14 +22,7 @@ namespace MultyParser.Core
         public int TotalPages { get; set; }
         public int TotalRows { get; set; }
 
-        protected ResultBookCreaterBase _resultBookCreater;
-        public ResultBookCreaterBase ResultBookCreater
-        {
-            get
-            {
-                return _resultBookCreater;
-            }
-        }
+        public abstract ReportBookCreaterBase GetBookCreaterObject();
 
         protected Dictionary<string, string> _templates;
         public Dictionary<string, string> Templates
@@ -60,19 +51,6 @@ namespace MultyParser.Core
             }
         }
 
-        protected Dictionary<string, int> SeoTitlesStorage { get; set; }
-
-        protected string GetUniqueSeoTitle(string title)
-        {
-            if (SeoTitlesStorage.ContainsKey(title))
-            {
-                SeoTitlesStorage[title]++;
-                return title + "-" + SeoTitlesStorage[title];
-            }
-            SeoTitlesStorage[title] = 1;
-            return title;
-        }
-
         protected virtual string MakeMetaKeywords(string tovarName)
         {
             var keywordSet = MultyParserConfigSection.Settings.KeywordPatterns;
@@ -94,8 +72,8 @@ namespace MultyParser.Core
             return (m.Success) ? m.ToString() : "";
         }
 
-        protected virtual string GetBrandName() => null;    // после названия бренда может быть написана модель
-        protected virtual string GetMainOption() => null;   // для выделения опции из названия
+        protected virtual string GetBrandName() => null;        // после названия бренда может быть написана модель
+        protected virtual string GetMainOptionName() => null;   // для выделения опции из названия
 
         public virtual string GetDefaultTemplate() => null; // шаблон по умолчанию для импорта товаров
         public virtual int GetVolumeSize() => 0;            // если нужно изменить размер тома

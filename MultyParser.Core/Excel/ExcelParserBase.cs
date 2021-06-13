@@ -11,7 +11,7 @@ namespace MultyParser.Core.Excel
     {
         protected abstract bool PositionToFirstRow(ExcelPage page);
         protected abstract bool GetFirstOrNextColumns(ExcelPage page, ref Dictionary<string, int> columnNumbers);
-        protected abstract Dictionary<string, List<Dictionary<int, string>>> GatherValuesFromPage(ExcelPage page, Dictionary<string, int> columnNumbers);
+        protected abstract Dictionary<string, List<Dictionary<int, object>>> GatherValuesFromPage(ExcelPage page, Dictionary<string, int> columnNumbers);
 
         public virtual bool DoParsingOfIncomingPage(ExcelPage incomPage, DoWorkEventArgs args)
         {
@@ -21,14 +21,14 @@ namespace MultyParser.Core.Excel
                     do
                     {
                         if (args.Cancel) break;
-                        Dictionary<string, List<Dictionary<int, string>>> values = GatherValuesFromPage(incomPage, columnNumbers);
+                        Dictionary<string, List<Dictionary<int, object>>> values = GatherValuesFromPage(incomPage, columnNumbers);
                         if (values != null)
-                            this.ResultBookCreater.WriteDataToBook(values);
+                            GetBookCreaterObject().WriteDataToBook(values);
                         this.OnSetProgressValue(incomPage.CurrentRow);
                         incomPage.CurrentRow++;
                     }
                     while (!incomPage.IsEndPosition());
-            ResultBookCreater.FinalProcessing();
+            GetBookCreaterObject().FinalProcessing();
             return true;
         }
     }

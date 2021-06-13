@@ -1,5 +1,6 @@
 ﻿using MultyParser.Core;
 using MultyParser.Core.Excel;
+using MultyParser.Core.ExcelBookCreaters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace MultyParser.Opencart
 {
-    public class OpencartOptionBookCreater : ResultBookCreaterBase
+    public class OpencartOptionBookCreater : OptionBookCreaterBase
     {
         public const string OPTIONS_PAGE_NAME = "Options";
         public const string OPTION_VALUES_PAGE_NAME = "OptionValues";
 
         protected override ExcelBook CreateBookForResultData(string filePath = null)
         {
-            Dictionary<string, Dictionary<int, string>> titles =
-                new Dictionary<string, Dictionary<int, string>>();
+            Dictionary<string, Dictionary<int, object>> titles =
+                new Dictionary<string, Dictionary<int, object>>();
 
-            titles.Add(OPTIONS_PAGE_NAME, new Dictionary<int, string>
+            titles.Add(OPTIONS_PAGE_NAME, new Dictionary<int, object>
             {
                 [1] = "option_id",
                 [2] = "type",
@@ -26,7 +27,7 @@ namespace MultyParser.Opencart
                 [4] = "name(en-gb)",
                 [5] = "name(ru-ru)"
             });
-            titles.Add(OPTION_VALUES_PAGE_NAME, new Dictionary<int, string>
+            titles.Add(OPTION_VALUES_PAGE_NAME, new Dictionary<int, object>
             {
                 [1] = "option_value_id",
                 [2] = "option_id",

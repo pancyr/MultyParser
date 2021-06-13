@@ -91,7 +91,7 @@ namespace MultyParser.Win
             EnterSiteUrl siteDialog = new EnterSiteUrl(this);
             if (siteDialog.ShowDialog() == DialogResult.OK)
             {
-                //ParseSiteUrl(siteDialog.SelectedUrl);
+                //ParseSiteUrl(siteDialog.SelectedUrl, ParserBase.PARSER_FOR_PRODUCTS);
                 //formDialog = new ProgressDialog(this);
                 //ParseSingleFile(openDialog.FileName);
                 formDialog = new ProgressDialog(this);
@@ -170,11 +170,15 @@ namespace MultyParser.Win
                 ActiveParserObject.TotalPages = htmlParser.CountPages(siteUrl);
                 string templateFile = (reportTemplate != null) ? reportTemplate : ActiveParserObject.GetDefaultTemplate();
                 string dep = htmlParser.GetDepartmentByUrl(siteUrl);
-                ActiveParserObject.ResultBookCreater.Init(dep, templateFile, htmlParser.GetSiteName());
+
+                if (parserKind == ParserBase.PARSER_FOR_OPTIONS)
+                    dep += "-options";
+
+                ActiveParserObject.GetBookCreaterObject().Init(dep, templateFile, htmlParser.GetSiteName());
 
                 int volumeSize = ActiveParserObject.GetVolumeSize();
                 if (volumeSize != 0)
-                    ActiveParserObject.ResultBookCreater.VolumeSize = volumeSize;
+                    ActiveParserObject.GetBookCreaterObject().VolumeSize = volumeSize;
 
                 ActiveParserObject.SetProgressValue +=
                     new ParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress);
