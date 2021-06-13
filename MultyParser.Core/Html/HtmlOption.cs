@@ -11,13 +11,14 @@ namespace MultyParser.Core.Html
     {
         public HtmlOption() { }
 
-        public HtmlOption(int id, string name, string type, int sortOrder, string htmlSelector, string regPath = null, bool commonString = false)
+        public HtmlOption(int id, string name, string type, int sortOrder, string singleSelector, string listSelector, string regPath, bool commonString)
         {
             this.ID = id;
             this.Name = name;
             this.Type = type;
             this.SortOrder = sortOrder;
-            this.HtmlSelector = htmlSelector;
+            this.SingleSelector = singleSelector;
+            this.ListSelector = listSelector;
             this.RegPath = regPath;
             this.CommonString = commonString;
         }
@@ -28,7 +29,8 @@ namespace MultyParser.Core.Html
         public string Name { get; set; }
         public string Type { get; set; }
         public int SortOrder { get; set; }
-        public string HtmlSelector { get; set; }
+        public string SingleSelector { get; set; }
+        public string ListSelector { get; set; }
         public string RegPath { get; set; }
         public bool CommonString { get; set; }
 

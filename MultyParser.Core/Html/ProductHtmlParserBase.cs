@@ -133,8 +133,11 @@ namespace MultyParser.Core.Html
                         }
                         
                     }
-                    rowsForBook.Add(optionsPage, options);
-                    rowsForBook.Add(valuesPage, optionValues);
+                    if (optionValues.Count > 0)
+                    {
+                        rowsForBook.Add(optionsPage, options);
+                        rowsForBook.Add(valuesPage, optionValues);
+                    }
                 }
 
                 /* Записываем SEO-заголовки товара для всех версий сайта */
