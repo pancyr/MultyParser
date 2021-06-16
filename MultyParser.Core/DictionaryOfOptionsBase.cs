@@ -34,8 +34,8 @@ namespace MultyParser.Core
                         List<string> values = option.ParseValuesFromString(tags.First().TextContent);
                         foreach (string val in values)
                         {
-                            if (!Members[option].Contains(val))
-                                Members[option].Add(val);
+                            if (!Members[option].Contains(val.ToLower()))
+                                Members[option].Add(val.ToLower());
                         }
                     }
                 }
@@ -44,7 +44,7 @@ namespace MultyParser.Core
                     var listItems = document.QuerySelectorAll(option.ListSelector);
                     foreach (var item in listItems)
                     {
-                        string val = item.TextContent.Trim();
+                        string val = item.TextContent.Trim().ToLower();
                         if (option.TestRegular(val) && !Members[option].Contains(val))
                             Members[option].Add(val);
                     }
