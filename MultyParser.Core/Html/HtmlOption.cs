@@ -23,7 +23,7 @@ namespace MultyParser.Core.Html
             this.CommonString = commonString;
         }
 
-        public const string REG_TEMPLATE = @"({0})[\s\.,;-_$]";
+        //public const string REG_TEMPLATE = @"({0})[\s\.,;-_$]+";
 
         public int ID { get; set; }
         public string Name { get; set; }
@@ -44,11 +44,11 @@ namespace MultyParser.Core.Html
 
         public List<string> ParseValuesFromString(string common)
         {
-            string regular = String.Format(REG_TEMPLATE, RegPath);
-            MatchCollection matches = new Regex(regular, RegexOptions.IgnoreCase).Matches(common);
+            //string regular = String.Format(REG_TEMPLATE, RegPath);
+            MatchCollection matches = new Regex(RegPath, RegexOptions.IgnoreCase).Matches(common);
             List<string> result = new List<string>();
             foreach (Match m in matches)
-                result.Add(m.Groups[1].ToString());
+                result.Add(m.ToString());
             return result;
         }
     }
