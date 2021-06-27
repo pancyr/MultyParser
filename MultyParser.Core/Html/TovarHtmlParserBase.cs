@@ -9,14 +9,14 @@ using AngleSharp;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using AngleSharp.Dom;
-using MultyParser.Core.ExcelBookCreaters;
+using MultyParser.Core.ExcelReportBuilder;
 
 namespace MultyParser.Core.Html
 {
-    public abstract class ProductHtmlParserBase : HtmlParserBase
+    public abstract class TovarHtmlParserBase : HtmlParserBase
     {
-        protected ProductBookCreaterBase _productBookCreater;
-        public ProductBookCreaterBase ProductBookCreater
+        protected TovarExcelReportBuilder _productBookCreater;
+        public TovarExcelReportBuilder ProductBookCreater
         {
             get
             {
@@ -24,7 +24,7 @@ namespace MultyParser.Core.Html
             }
         }
 
-        public override ReportBookCreaterBase GetBookCreaterObject() => ProductBookCreater;
+        public override ExcelReportBuilderBase GetReportBuilderInstance() => ProductBookCreater;
 
         public virtual Dictionary<string, string> DepartmentCategories => null;
 
@@ -48,7 +48,7 @@ namespace MultyParser.Core.Html
         protected Dictionary<string, int> ParserSpecifications; // названия спецификаций на сайте - из парсера
         protected Dictionary<string, int> ForTransfer;          // то что перенести в основную таблицу - тоже
 
-        protected abstract string GetCodeOfTovarGroup();
+        
         protected abstract Dictionary<string, int> GetSpecifications();
 
         /* Получение основной информации о товаре из объекта класса HtmlTovar */
@@ -73,7 +73,7 @@ namespace MultyParser.Core.Html
 
         protected abstract Dictionary<string, int> GetForTransferToMainPage();  // список того, что нужно перенести из спецификаций на главную
 
-        protected virtual DictionaryOfOptionsBase GetOptionsOfTovar() => null;
+        protected virtual DictionaryOfOptions GetOptionsOfTovar() => null;
         protected virtual void ProcessOfAppendInfo(HtmlTovar tovarObject, List<string> properties) { }
 
         protected override void BeforeEntityLoop()

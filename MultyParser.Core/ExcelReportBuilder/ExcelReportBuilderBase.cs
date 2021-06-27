@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 using MultyParser.Core.Excel;
 
-namespace MultyParser.Core.ExcelBookCreaters
+namespace MultyParser.Core.ExcelReportBuilder
 {
-    public abstract class ReportBookCreaterBase
+    public abstract class ExcelReportBuilderBase
     {
         protected abstract ExcelBook CreateBookForResultData(string filePath = null);
 

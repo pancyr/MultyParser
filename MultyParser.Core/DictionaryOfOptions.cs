@@ -6,7 +6,7 @@ using MultyParser.Core.Html;
 
 namespace MultyParser.Core
 {
-    public abstract class DictionaryOfOptionsBase
+    public class DictionaryOfOptions
     {
         private Dictionary<HtmlOption, List<string>> _members;
         public Dictionary<HtmlOption, List<string>> Members
@@ -19,12 +19,17 @@ namespace MultyParser.Core
             }
         }
 
+        public void Add(HtmlOption key, List<string> value)
+        {
+            Members.Add(key, value);
+        }
+
         public void ReadOptionValuesFromDocument(IHtmlDocument document)
         {
             foreach (HtmlOption option in Members.Keys)
             {
                 bool commonStringFound = false;
-                if (option.CommonString && option.SingleSelector.Length > 0)
+                if (option.CommonString && option.SingleSelector != null && option.SingleSelector.Length > 0)
                 {
                     IEnumerable<IElement> tags = document.QuerySelectorAll(option.SingleSelector)
                         .Where(p => p.TextContent.StartsWith(option.Name));
@@ -39,7 +44,7 @@ namespace MultyParser.Core
                         }
                     }
                 }
-                if (option.ListSelector.Length > 0 && (!option.CommonString || !commonStringFound))
+                if (option.ListSelector != null && option.ListSelector.Length > 0 && (!option.CommonString || !commonStringFound))
                 {
                     var listItems = document.QuerySelectorAll(option.ListSelector);
                     foreach (var item in listItems)

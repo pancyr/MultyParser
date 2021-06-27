@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using MultyParser.Configuration;
-using MultyParser.Core.ExcelBookCreaters;
+using MultyParser.Core.ExcelReportBuilder;
 
 namespace MultyParser.Core
 {
@@ -13,6 +13,7 @@ namespace MultyParser.Core
     {
         public const int PARSER_FOR_PRODUCTS = 1;
         public const int PARSER_FOR_OPTIONS = 2;
+        public const int PARSER_FOR_FILTERS = 3;
 
         public ParserBase() { }
 
@@ -23,8 +24,6 @@ namespace MultyParser.Core
         public int CurrentPageNum { get; set; }
         public int TotalPages { get; set; }
         public int TotalRows { get; set; }
-
-        public abstract ReportBookCreaterBase GetBookCreaterObject();
 
         protected Dictionary<string, string> _templates;
         public Dictionary<string, string> Templates
@@ -73,11 +72,13 @@ namespace MultyParser.Core
             Match m = regPrice.Match(result);
             return (m.Success) ? m.ToString() : "";
         }
-
+        
+        protected abstract string GetCodeOfTovarGroup();
         protected virtual string GetBrandName() => null;        // после названия бренда может быть написана модель
         protected virtual string GetMainOptionName() => null;   // для выделения опции из названия
 
-        public virtual string GetDefaultTemplate() => null; // шаблон по умолчанию для импорта товаров
+        public abstract ExcelReportBuilderBase GetReportBuilderInstance();  // возвращает экземпляр построителя выходных документов
+        public abstract string GetDefaultTemplate();                        // шаблон по умолчанию для импорта товаров
         public virtual int GetVolumeSize() => 0;            // если нужно изменить размер тома
 
         protected virtual List<int> GetListIntFromString(string input)

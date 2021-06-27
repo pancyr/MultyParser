@@ -9,12 +9,12 @@ using MultyParser.Core.Html;
 namespace MultyParser.Opencart
 {
     [TemplateSet("OPENCART")]
-    public abstract class OpencartProductHtmlParserBase : ProductHtmlParserBase
+    public abstract class OpencartTovarHtmlParserBase : TovarHtmlParserBase
     {
 
-        public OpencartProductHtmlParserBase()
+        public OpencartTovarHtmlParserBase()
         {
-            this._productBookCreater = new OpencartProductBookCreater();
+            this._productBookCreater = new OpencartTovarExcelReportBuilder();
         }
 
         public override string GetDefaultTemplate() => this.Templates["PROD"];
@@ -25,7 +25,7 @@ namespace MultyParser.Opencart
         protected override Dictionary<int, object> GatherCommonDataFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
         {
             
-            pageName = OpencartProductBookCreater.PRODUCTS_PAGE_NAME;
+            pageName = OpencartTovarExcelReportBuilder.PRODUCTS_PAGE_NAME;
 
             if (tovarObject.Name.Length > 0)
             {
@@ -49,7 +49,7 @@ namespace MultyParser.Opencart
             List<Dictionary<int, object>> result = new List<Dictionary<int, object>>();
             foreach (string photo in tovarObject.Photos)
                 result.Add(ProductBookCreater.MakeLineForAdditionalImage(tovarID, photo));
-            pageName = OpencartProductBookCreater.IMAGES_PAGE_NAME;
+            pageName = OpencartTovarExcelReportBuilder.IMAGES_PAGE_NAME;
             return result;
         }
 
@@ -89,25 +89,25 @@ namespace MultyParser.Opencart
                 }
             }
 
-            pageName = OpencartProductBookCreater.ATTRIBUTES_PAGE_NAME;
+            pageName = OpencartTovarExcelReportBuilder.ATTRIBUTES_PAGE_NAME;
             return result;
         }
 
         protected override List<Dictionary<int, object>> GatherOptionFromTovarObject(int tovarID, string optionName, out string pageName)
         {
-            pageName = OpencartProductBookCreater.OPTIONS_PAGE_NAME;
+            pageName = OpencartTovarExcelReportBuilder.OPTIONS_PAGE_NAME;
             return new List<Dictionary<int, object>> { ProductBookCreater.MakeLineForOption(tovarID, optionName) };
         }
 
         protected override List<Dictionary<int, object>> GatherOptionValueFromTovarObject(int tovarID, string optionName, string optionValue, out string pageName)
         {
-            pageName = OpencartProductBookCreater.OPTION_VALUES_PAGE_NAME;
+            pageName = OpencartTovarExcelReportBuilder.OPTION_VALUES_PAGE_NAME;
             return new List<Dictionary<int, object>> { ProductBookCreater.MakeLineForOptionValue(tovarID, optionName, optionValue) };
         }
 
         protected override Dictionary<int, object> GatherSeoKeywordsFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
         {
-            pageName = OpencartProductBookCreater.SEO_PAGE_NAME;
+            pageName = OpencartTovarExcelReportBuilder.SEO_PAGE_NAME;
             return ProductBookCreater.MakeLineForSeoUrl(tovarID, tovarObject.Name);
         }
     }

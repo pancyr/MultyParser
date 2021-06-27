@@ -8,12 +8,17 @@ namespace Velveto.Conte
     {
         public override ParserBase GetParserObjectForProducts()
         {
-            return new ConteProductOpencartHtmlParser();
+            return new ConteOpencartTovarHtmlParser();
         }
 
         public override ParserBase GetParserObjectForOptions()
         {
-            return new ConteOptionOpencartHtmlParser();
+            return new ConteOpencartOptionHtmlParser();
+        }
+
+        public override ParserBase GetParserObjectForFilters()
+        {
+            return new ConteOpencartFilterHtmlParser();
         }
     }
 }

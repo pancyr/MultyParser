@@ -47,11 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OpencartExcelParserBase.cs" />
-    <Compile Include="OpencartOptionBookCreater.cs" />
-    <Compile Include="OpencartOptionHtmlParserBase.cs" />
-    <Compile Include="OpencartProductHtmlParserBase.cs" />
-    <Compile Include="OpencartProductBookCreater.cs" />
+    <Compile Include="OpencartFilterExcelReportBuilder.cs" />
+    <Compile Include="OpencartOptionExcelReportBuilder.cs" />
+    <Compile Include="OpencartPropertyHtmlParserBase.cs" />
+    <Compile Include="OpencartTovarHtmlParserBase.cs" />
+    <Compile Include="OpencartTovarExcelReportBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

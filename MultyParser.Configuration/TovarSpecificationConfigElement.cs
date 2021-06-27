@@ -15,5 +15,11 @@ namespace MultyParser.Configuration
         {
             get { return (string)this["name"]; }
         }
+
+        [ConfigurationProperty("filter", IsRequired = false)]
+        public bool filter
+        {
+            get { return (bool)this["filter"]; }
+        }
     }
 }

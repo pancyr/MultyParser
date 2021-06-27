@@ -1,6 +1,6 @@
 ﻿using MultyParser.Core;
 using MultyParser.Core.Excel;
-using MultyParser.Core.ExcelBookCreaters;
+using MultyParser.Core.ExcelReportBuilder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MultyParser.Opencart
 {
-    public class OpencartProductBookCreater : ProductBookCreaterBase
+    public class OpencartTovarExcelReportBuilder : TovarExcelReportBuilder
     {
         public const string PRODUCTS_PAGE_NAME = "Products";
         public const string IMAGES_PAGE_NAME = "AdditionalImages";

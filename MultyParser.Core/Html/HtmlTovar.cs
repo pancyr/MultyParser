@@ -18,7 +18,7 @@ namespace MultyParser.Core.Html
         public string Price { get; set; }
         public List<string> Photos { get; set; }
 
-        public DictionaryOfOptionsBase Options { get; set; }
+        public DictionaryOfOptions Options { get; set; }
 
         protected Dictionary<string, string> _specifications;
         public Dictionary<string, string> Specifications

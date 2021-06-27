@@ -9,25 +9,28 @@ using AngleSharp;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using AngleSharp.Dom;
-using MultyParser.Core.ExcelBookCreaters;
+using MultyParser.Core.ExcelReportBuilder;
 
 namespace MultyParser.Core.Html
 {
-    public abstract class OptionHtmlParserBase : HtmlParserBase
+    public abstract class PropertyHtmlParserBase : HtmlParserBase
     {
-        protected OptionBookCreaterBase _optionBookCreater;
-        public OptionBookCreaterBase OptionBookCreater
+        protected PropertyExcelReportBuilder _optionReportBuilder;
+        public PropertyExcelReportBuilder OptionReportBuilder
         {
             get
             {
-                return _optionBookCreater;
+                return _optionReportBuilder;
             }
         }
 
-        public override ReportBookCreaterBase GetBookCreaterObject() => OptionBookCreater;
+        public abstract string GetNameOfPageProperties();
+        public abstract string GetNameOfPageValues();
+
+        public override ExcelReportBuilderBase GetReportBuilderInstance() => OptionReportBuilder;
 
         /* Справочник опций - он будет заполнен при обходе страниц товара */
-        public DictionaryOfOptionsBase Options { get; set; }
+        public DictionaryOfOptions Options { get; set; }
 
         /* Получение опции товара из словаря */
         protected abstract List<Dictionary<int, object>> GatherOptionFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName);
@@ -54,7 +57,7 @@ namespace MultyParser.Core.Html
             List<Dictionary<int, object>> dataValues = this.GatherOptionValueFromDictionary(Options.Members, out pageName);
             rowsForBook.Add(pageName, dataValues);
 
-            OptionBookCreater.WriteDataToBook(rowsForBook);
+            OptionReportBuilder.WriteDataToBook(rowsForBook);
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultyParser.Core.ExcelBookCreaters
+namespace MultyParser.Core.ExcelReportBuilder
 {
-    public abstract class ProductBookCreaterBase : ReportBookCreaterBase
+    public abstract class TovarExcelReportBuilder : ExcelReportBuilderBase
     {
         public abstract Dictionary<int, object> MakeLineForProductPage(
             int tovarID, string tovarName, string groups, int quantity, string brand,

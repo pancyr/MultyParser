@@ -6,9 +6,9 @@ using MultyParser.Opencart;
 
 namespace Velveto.Conte
 {
-    public class ConteProductOpencartHtmlParser : OpencartProductHtmlParserBase
+    public class ConteOpencartTovarHtmlParser : OpencartTovarHtmlParserBase
     {
-        public ConteProductOpencartHtmlParser()
+        public ConteOpencartTovarHtmlParser()
         {
             //Options = new VelvetoDictionaryOfOptions();
         }
@@ -54,9 +54,12 @@ namespace Velveto.Conte
             }
         }
 
-        protected override DictionaryOfOptionsBase GetOptionsOfTovar()
+        protected override DictionaryOfOptions GetOptionsOfTovar()
         {
-            return new VelvetoDictionaryOfOptions();
+            DictionaryOfOptions result = new DictionaryOfOptions();
+            result.Add(new HtmlOption(1000, "Цвет", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"[A-zА-яЁё]+(-[A-zА-яЁё]+)?\b(?!:)", true), new List<string>());
+            result.Add(new HtmlOption(2000, "Размер", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"\d+(-\d+)?", true), new List<string>());
+            return result;
         }
 
         protected override Dictionary<string, int> GetSpecifications()

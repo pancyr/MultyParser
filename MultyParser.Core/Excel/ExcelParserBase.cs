@@ -23,12 +23,12 @@ namespace MultyParser.Core.Excel
                         if (args.Cancel) break;
                         Dictionary<string, List<Dictionary<int, object>>> values = GatherValuesFromPage(incomPage, columnNumbers);
                         if (values != null)
-                            GetBookCreaterObject().WriteDataToBook(values);
+                            GetReportBuilderInstance().WriteDataToBook(values);
                         this.OnSetProgressValue(incomPage.CurrentRow);
                         incomPage.CurrentRow++;
                     }
                     while (!incomPage.IsEndPosition());
-            GetBookCreaterObject().FinalProcessing();
+            GetReportBuilderInstance().FinalProcessing();
             return true;
         }
     }

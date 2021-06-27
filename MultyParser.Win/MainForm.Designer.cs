@@ -41,6 +41,7 @@ namespace MultyParser.Win
             this.cmdBrowse = new System.Windows.Forms.Button();
             this.cmdParseUrl = new System.Windows.Forms.Button();
             this.cmdParseUrlOptions = new System.Windows.Forms.Button();
+            this.cmdParseUrlFilters = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listView1
@@ -150,11 +151,24 @@ namespace MultyParser.Win
             this.cmdParseUrlOptions.UseVisualStyleBackColor = true;
             this.cmdParseUrlOptions.Click += new System.EventHandler(this.cmdParseUrlOptions_Click);
             // 
+            // cmdParseUrlFilters
+            // 
+            this.cmdParseUrlFilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdParseUrlFilters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmdParseUrlFilters.Location = new System.Drawing.Point(596, 126);
+            this.cmdParseUrlFilters.Name = "cmdParseUrlFilters";
+            this.cmdParseUrlFilters.Size = new System.Drawing.Size(226, 32);
+            this.cmdParseUrlFilters.TabIndex = 17;
+            this.cmdParseUrlFilters.Text = "Фильтры с сайта";
+            this.cmdParseUrlFilters.UseVisualStyleBackColor = true;
+            this.cmdParseUrlFilters.Click += new System.EventHandler(this.cmdParseUrlFilters_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(834, 450);
+            this.Controls.Add(this.cmdParseUrlFilters);
             this.Controls.Add(this.cmdParseUrlOptions);
             this.Controls.Add(this.cmdParseUrl);
             this.Controls.Add(this.cmdBrowse);
@@ -185,6 +199,7 @@ namespace MultyParser.Win
         private System.Windows.Forms.Button cmdBrowse;
         private System.Windows.Forms.Button cmdParseUrl;
         private System.Windows.Forms.Button cmdParseUrlOptions;
+        private System.Windows.Forms.Button cmdParseUrlFilters;
     }
 }
 

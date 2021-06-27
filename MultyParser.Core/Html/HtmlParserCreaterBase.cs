@@ -7,6 +7,7 @@ namespace MultyParser.Core.Html
     {
         public virtual ParserBase GetParserObjectForProducts() => null;
         public virtual ParserBase GetParserObjectForOptions() => null;
+        public virtual ParserBase GetParserObjectForFilters() => null;
 
         public virtual bool DetectIncomingLinkForParserClass(string link)
         {

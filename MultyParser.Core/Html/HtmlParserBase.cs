@@ -62,7 +62,7 @@ namespace MultyParser.Core.Html
             }
 
             AfterEntityLoop();
-            GetBookCreaterObject().FinalProcessing();
+            GetReportBuilderInstance().FinalProcessing();
             return true;
         }
 

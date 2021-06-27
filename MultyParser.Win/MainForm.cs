@@ -65,6 +65,22 @@ namespace MultyParser.Win
             this.FillListOfFiles();
         }
 
+        private void StartWebPageParsing(int actionCode)
+        {
+            EnterSiteUrl siteDialog = new EnterSiteUrl(this);
+            if (siteDialog.ShowDialog() == DialogResult.OK)
+            {
+                //ParseSiteUrl(siteDialog.SelectedUrl, ParserBase.PARSER_FOR_PRODUCTS);
+                //formDialog = new ProgressDialog(this);
+                //ParseSingleFile(openDialog.FileName);
+                formDialog = new ProgressDialog(this);
+                Object[] args = new Object[] { actionCode, siteDialog.SelectedUrl };
+                bgPriceWorker.RunWorkerAsync(args);
+                formDialog.ResetParams();
+                formDialog.ShowDialog();
+            }
+        }
+
         private void cmdLoadFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openDialog = new OpenFileDialog();
@@ -88,34 +104,17 @@ namespace MultyParser.Win
 
         private void cmdParseUrl_Click(object sender, EventArgs e)
         {
-            EnterSiteUrl siteDialog = new EnterSiteUrl(this);
-            if (siteDialog.ShowDialog() == DialogResult.OK)
-            {
-                //ParseSiteUrl(siteDialog.SelectedUrl, ParserBase.PARSER_FOR_PRODUCTS);
-                //formDialog = new ProgressDialog(this);
-                //ParseSingleFile(openDialog.FileName);
-                formDialog = new ProgressDialog(this);
-                Object[] args = new Object[] { 2, siteDialog.SelectedUrl };
-                bgPriceWorker.RunWorkerAsync(args);
-                formDialog.ResetParams();
-                formDialog.ShowDialog();
-            }
+            StartWebPageParsing(2);
         }
 
         private void cmdParseUrlOptions_Click(object sender, EventArgs e)
         {
-            EnterSiteUrl siteDialog = new EnterSiteUrl(this);
-            if (siteDialog.ShowDialog() == DialogResult.OK)
-            {
-                //ParseSiteUrl(siteDialog.SelectedUrl);
-                //formDialog = new ProgressDialog(this);
-                //ParseSingleFile(openDialog.FileName);
-                formDialog = new ProgressDialog(this);
-                Object[] args = new Object[] { 3, siteDialog.SelectedUrl };
-                bgPriceWorker.RunWorkerAsync(args);
-                formDialog.ResetParams();
-                formDialog.ShowDialog();
-            }
+            StartWebPageParsing(3);
+        }
+
+        private void cmdParseUrlFilters_Click(object sender, EventArgs e)
+        {
+            StartWebPageParsing(4);
         }
 
         #region Функции потока обработки файлов
@@ -131,6 +130,7 @@ namespace MultyParser.Win
                 //case 1: ParseExcelFile(((Object[])e.Argument)[1].ToString()); break;
                 case 2: ParseSiteUrl(((Object[])e.Argument)[1].ToString(), ParserBase.PARSER_FOR_PRODUCTS); break;
                 case 3: ParseSiteUrl(((Object[])e.Argument)[1].ToString(), ParserBase.PARSER_FOR_OPTIONS); break;
+                case 4: ParseSiteUrl(((Object[])e.Argument)[1].ToString(), ParserBase.PARSER_FOR_FILTERS); break;
             }
         }
 
@@ -162,6 +162,7 @@ namespace MultyParser.Win
                 {
                     case ParserBase.PARSER_FOR_PRODUCTS: ActiveParserObject = creater.GetParserObjectForProducts(); break;
                     case ParserBase.PARSER_FOR_OPTIONS: ActiveParserObject = creater.GetParserObjectForOptions(); break;
+                    case ParserBase.PARSER_FOR_FILTERS: ActiveParserObject = creater.GetParserObjectForFilters(); break;
                 }
                 
                 HtmlParserBase htmlParser = ActiveParserObject as HtmlParserBase;
@@ -175,12 +176,14 @@ namespace MultyParser.Win
                 string fileName = ActiveParserObject.DepartmentName;
                 if (parserKind == ParserBase.PARSER_FOR_OPTIONS)
                     fileName += "-options";
+                else if (parserKind == ParserBase.PARSER_FOR_FILTERS)
+                    fileName += "-filters";
 
-                ActiveParserObject.GetBookCreaterObject().Init(fileName, templateFile, htmlParser.GetSiteName());
+                ActiveParserObject.GetReportBuilderInstance().Init(fileName, templateFile, htmlParser.GetSiteName());
 
                 int volumeSize = ActiveParserObject.GetVolumeSize();
                 if (volumeSize != 0)
-                    ActiveParserObject.GetBookCreaterObject().VolumeSize = volumeSize;
+                    ActiveParserObject.GetReportBuilderInstance().VolumeSize = volumeSize;
 
                 ActiveParserObject.SetProgressValue +=
                     new ParserBase.SetProgressValueHandler(bgPriceWorker.ReportProgress);

@@ -97,6 +97,9 @@
     <None Include="Templates\Opencart\Attributes.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Templates\Opencart\Filters.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Templates\Opencart\Options.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

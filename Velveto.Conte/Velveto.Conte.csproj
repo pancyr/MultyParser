@@ -41,11 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConteOpencartFilterHtmlParser.cs" />
     <Compile Include="ConteOpencartHtmlCreater.cs" />
-    <Compile Include="ConteOptionOpencartHtmlParser.cs" />
-    <Compile Include="ConteProductOpencartHtmlParser.cs" />
+    <Compile Include="ConteOpencartOptionHtmlParser.cs" />
+    <Compile Include="ConteOpencartPropertyHtmlParserBase.cs" />
+    <Compile Include="ConteOpencartTovarHtmlParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VelvetoDictionaryOfOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MultyParser.Core\MultyParser.Core.csproj">
