@@ -16,6 +16,7 @@ namespace MultyParser.Opencart
         public const string OPTIONS_PAGE_NAME = "ProductOptions";
         public const string OPTION_VALUES_PAGE_NAME = "ProductOptionValues";
         public const string ATTRIBUTES_PAGE_NAME = "ProductAttributes";
+        public const string FILTERS_PAGE_NAME = "ProductFilters";
         public const string SEO_PAGE_NAME = "ProductSEOKeywords";
 
         protected override ExcelBook CreateBookForResultData(string filePath = null)
@@ -106,6 +107,12 @@ namespace MultyParser.Opencart
                 [3] = "attribute",
                 [4] = "text (en-gb)",
                 [5] = "text (ru-ru)"
+            });
+            titles.Add(FILTERS_PAGE_NAME, new Dictionary<int, object>
+            {
+                [1] = "product_id",
+                [2] = "filter_group",
+                [3] = "filter"
             });
             titles.Add(SEO_PAGE_NAME, new Dictionary<int, object>
             {
@@ -220,6 +227,15 @@ namespace MultyParser.Opencart
             result.Add(2, groupName);
             result.Add(3, attributeName);
             result.Add(5, value);
+            return result;
+        }
+
+        public override Dictionary<int, object> MakeLineForFilterValue(int tovarID, string groupName, string filterValue)
+        {
+            Dictionary<int, object> result = new Dictionary<int, object>();
+            result.Add(1, tovarID.ToString());
+            result.Add(2, groupName);
+            result.Add(3, filterValue);
             return result;
         }
 

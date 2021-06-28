@@ -17,6 +17,7 @@ namespace MultyParser.Core.ExcelReportBuilder
         public abstract Dictionary<int, object> MakeLineForOption(int tovarID, string optionName);
         public abstract Dictionary<int, object> MakeLineForOptionValue(int tovarID, string optionName, string optionValue);
         public abstract Dictionary<int, object> MakeLineForAttribute(int tovarID, string groupName, string attributeName, string value);
+        public abstract Dictionary<int, object> MakeLineForFilterValue(int tovarID, string groupName, string filterValue);
         public abstract Dictionary<int, object> MakeLineForSeoUrl(int tovarID, string productName);
 
         private Dictionary<string, int> _seoTitlesStorage;

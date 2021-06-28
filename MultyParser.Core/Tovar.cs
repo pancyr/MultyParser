@@ -19,6 +19,7 @@ namespace MultyParser.Core
         public List<string> Photos { get; set; }
 
         public DictionaryOfProperty Options { get; set; }
+        public DictionaryOfProperty Filters { get; set; }
 
         protected Dictionary<string, string> _specifications;
         public Dictionary<string, string> Specifications

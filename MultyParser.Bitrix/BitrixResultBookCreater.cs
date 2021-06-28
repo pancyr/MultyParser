@@ -107,6 +107,11 @@ namespace MultyParser.Bitrix
             throw new NotImplementedException();
         }
 
+        public override Dictionary<int, object> MakeLineForFilterValue(int tovarID, string groupName, string filterValue)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Dictionary<int, object> MakeLineForSeoUrl(int tovarID, string productName)
         {
             throw new NotImplementedException();

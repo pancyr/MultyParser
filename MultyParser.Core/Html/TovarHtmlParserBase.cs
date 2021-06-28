@@ -68,12 +68,16 @@ namespace MultyParser.Core.Html
         /* Получение значения опции товара из объекта класса HtmlTovar */
         protected abstract List<Dictionary<int, object>> GatherOptionValueFromTovarObject(int tovarID, string optionName, string optionValue, out string pageName);
 
+        /* Получение значения фильтра из объекта класса HtmlTovar */
+        protected abstract List<Dictionary<int, object>> GatherFilterValueFromTovarObject(int tovarID, string optionName, string optionValue, out string pageName);
+
         /* Получение SEO-заголовков из объекта класса HtmlTovar */
         protected abstract Dictionary<int, object> GatherSeoKeywordsFromTovarObject(int tovarID, Tovar tovarObject, out string pageName);
 
         protected abstract Dictionary<string, int> GetForTransferToMainPage();  // список того, что нужно перенести из спецификаций на главную
 
         protected virtual DictionaryOfProperty GetOptionsOfTovar() => null;
+        protected virtual DictionaryOfProperty GetFiltersOfTovar() => null;
         protected virtual void ProcessOfAppendInfo(Tovar tovarObject, List<string> properties) { }
 
         protected override void BeforeEntityLoop()
@@ -119,7 +123,7 @@ namespace MultyParser.Core.Html
                 /* Работа со списком опций */
                 if (tovarObject.Options != null)
                 {
-                    string optionsPage = null, valuesPage = null;
+                    string optionsPage = null, optionValuesPage = null;
                     List<Dictionary<int, object>> options = new List<Dictionary<int, object>>();
                     List<Dictionary<int, object>> optionValues = new List<Dictionary<int, object>>();
                     foreach (TovarProperty option in tovarObject.Options.Members.Keys)
@@ -130,15 +134,33 @@ namespace MultyParser.Core.Html
                         foreach (string val in tovarObject.Options.Members[option])
                         {
                             optionValues.AddRange(GatherOptionValueFromTovarObject(
-                                this.EntityID, option.Name, val, out valuesPage));
+                                this.EntityID, option.Name, val, out optionValuesPage));
                         }
                         
                     }
                     if (optionValues.Count > 0)
                     {
                         rowsForBook.Add(optionsPage, options);
-                        rowsForBook.Add(valuesPage, optionValues);
+                        rowsForBook.Add(optionValuesPage, optionValues);
                     }
+                }
+
+                /* Работа со списком фильтров */
+                if (tovarObject.Filters != null)
+                {
+                    string filterValuesPage = null;
+                    List<Dictionary<int, object>> filterValues = new List<Dictionary<int, object>>();
+                    foreach (TovarProperty filter in tovarObject.Filters.Members.Keys)
+                    {
+                        foreach (string val in tovarObject.Filters.Members[filter])
+                        {
+                            filterValues.AddRange(GatherFilterValueFromTovarObject(
+                                this.EntityID, filter.Name, val, out filterValuesPage));
+                        }
+
+                    }
+                    if (filterValues.Count > 0)
+                        rowsForBook.Add(filterValuesPage, filterValues);
                 }
 
                 /* Записываем SEO-заголовки товара для всех версий сайта */
@@ -192,6 +214,10 @@ namespace MultyParser.Core.Html
             result.Options = GetOptionsOfTovar();
             if (result.Options != null)
                 result.Options.ReadPropertyValuesFromDocument(doc);
+
+            result.Filters = GetFiltersOfTovar();
+            if (result.Filters != null)
+                result.Filters.ReadPropertyValuesFromDocument(doc);
 
             string tagSpecifics = GetSelectorForTableOfSpecifications();
             if (tagSpecifics != null)

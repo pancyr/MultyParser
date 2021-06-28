@@ -105,6 +105,12 @@ namespace MultyParser.Opencart
             return new List<Dictionary<int, object>> { ProductBookCreater.MakeLineForOptionValue(tovarID, optionName, optionValue) };
         }
 
+        protected override List<Dictionary<int, object>> GatherFilterValueFromTovarObject(int tovarID, string optionName, string optionValue, out string pageName)
+        {
+            pageName = OpencartTovarExcelReportBuilder.FILTERS_PAGE_NAME;
+            return new List<Dictionary<int, object>> { ProductBookCreater.MakeLineForFilterValue(tovarID, optionName, optionValue) };
+        }
+
         protected override Dictionary<int, object> GatherSeoKeywordsFromTovarObject(int tovarID, Tovar tovarObject, out string pageName)
         {
             pageName = OpencartTovarExcelReportBuilder.SEO_PAGE_NAME;

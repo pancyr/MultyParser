@@ -55,6 +55,7 @@ namespace Velveto.Conte
         }
 
         protected override DictionaryOfProperty GetOptionsOfTovar() => ContePropertyManager.GetListForTovarOptions();
+        protected override DictionaryOfProperty GetFiltersOfTovar() => ContePropertyManager.GetListForTovarFilters();
 
         protected override Dictionary<string, int> GetSpecifications()
         {
