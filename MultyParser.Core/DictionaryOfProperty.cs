@@ -6,27 +6,27 @@ using MultyParser.Core.Html;
 
 namespace MultyParser.Core
 {
-    public class DictionaryOfOptions
+    public class DictionaryOfProperty
     {
-        private Dictionary<HtmlOption, List<string>> _members;
-        public Dictionary<HtmlOption, List<string>> Members
+        private Dictionary<TovarProperty, List<string>> _members;
+        public Dictionary<TovarProperty, List<string>> Members
         {
             get
             {
                 if (_members == null)
-                    _members = new Dictionary<HtmlOption, List<string>>();
+                    _members = new Dictionary<TovarProperty, List<string>>();
                 return _members;
             }
         }
 
-        public void Add(HtmlOption key, List<string> value)
+        public void Add(TovarProperty key, List<string> value)
         {
             Members.Add(key, value);
         }
 
-        public void ReadOptionValuesFromDocument(IHtmlDocument document)
+        public void ReadPropertyValuesFromDocument(IHtmlDocument document)
         {
-            foreach (HtmlOption option in Members.Keys)
+            foreach (TovarProperty option in Members.Keys)
             {
                 bool commonStringFound = false;
                 if (option.CommonString && option.SingleSelector != null && option.SingleSelector.Length > 0)

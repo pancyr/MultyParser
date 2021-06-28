@@ -54,13 +54,7 @@ namespace Velveto.Conte
             }
         }
 
-        protected override DictionaryOfOptions GetOptionsOfTovar()
-        {
-            DictionaryOfOptions result = new DictionaryOfOptions();
-            result.Add(new HtmlOption(1000, "Цвет", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"[A-zА-яЁё]+(-[A-zА-яЁё]+)?\b(?!:)", true), new List<string>());
-            result.Add(new HtmlOption(2000, "Размер", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"\d+(-\d+)?", true), new List<string>());
-            return result;
-        }
+        protected override DictionaryOfProperty GetOptionsOfTovar() => ContePropertyManager.GetListForTovarOptions();
 
         protected override Dictionary<string, int> GetSpecifications()
         {
@@ -76,7 +70,7 @@ namespace Velveto.Conte
             result.Add("Бренд", 13);
             return result;
         }
-        protected override void ProcessOfAppendInfo(HtmlTovar tovarObject, List<string> properties)
+        protected override void ProcessOfAppendInfo(Tovar tovarObject, List<string> properties)
         {
             string description = "";
             Regex reg = new Regex(@"^\S*:");

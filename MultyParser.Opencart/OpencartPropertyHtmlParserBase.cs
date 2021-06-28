@@ -12,19 +12,19 @@ namespace MultyParser.Opencart
     [TemplateSet("OPENCART")]
     public abstract class OpencartPropertyHtmlParserBase : PropertyHtmlParserBase
     {
-        protected override List<Dictionary<int, object>> GatherOptionFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName)
+        protected override List<Dictionary<int, object>> GatherOptionFromDictionary(Dictionary<TovarProperty, List<string>> options, out string pageName)
         {
             List<Dictionary<int, object>> result = new List<Dictionary<int, object>>();
-            foreach (HtmlOption opt in options.Keys)
+            foreach (TovarProperty opt in options.Keys)
                 result.Add(OptionReportBuilder.MakeLineForOption(opt));
             pageName = GetNameOfPageProperties();
             return result;
         }
 
-        protected override List<Dictionary<int, object>> GatherOptionValueFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName)
+        protected override List<Dictionary<int, object>> GatherOptionValueFromDictionary(Dictionary<TovarProperty, List<string>> options, out string pageName)
         {
             List<Dictionary<int, object>> result = new List<Dictionary<int, object>>();
-            foreach (HtmlOption opt in options.Keys)
+            foreach (TovarProperty opt in options.Keys)
             {
                 options[opt].Sort();
                 OptionReportBuilder.EntityPos = 1;

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MultyParser.Core.Html
+namespace MultyParser.Core
 {
-    public class HtmlTovar
+    public class Tovar
     {
         public string Name { get; set; }
         public string Categories { get; set; }
@@ -18,7 +18,7 @@ namespace MultyParser.Core.Html
         public string Price { get; set; }
         public List<string> Photos { get; set; }
 
-        public DictionaryOfOptions Options { get; set; }
+        public DictionaryOfProperty Options { get; set; }
 
         protected Dictionary<string, string> _specifications;
         public Dictionary<string, string> Specifications

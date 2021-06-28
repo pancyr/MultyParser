@@ -46,6 +46,7 @@
     <Compile Include="ConteOpencartOptionHtmlParser.cs" />
     <Compile Include="ConteOpencartPropertyHtmlParserBase.cs" />
     <Compile Include="ConteOpencartTovarHtmlParser.cs" />
+    <Compile Include="ContePropertyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

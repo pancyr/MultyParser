@@ -43,7 +43,7 @@ namespace MultyParser.Core.Html
         protected virtual string GetSelectorForAppendInfo() => null;                // селектор данных для обработки специальной ф-ей
 
         /* Данные, которые понадобятся нам для заполнения информации о товаре */
-        protected HtmlTovar PriorTovar { get; set; }            // товар, полученный на предыдущей итерации
+        protected Tovar PriorTovar { get; set; }            // товар, полученный на предыдущей итерации
         protected TovarGroup CommonTovarGroup;                  // группу товаров берём из глобального класса
         protected Dictionary<string, int> ParserSpecifications; // названия спецификаций на сайте - из парсера
         protected Dictionary<string, int> ForTransfer;          // то что перенести в основную таблицу - тоже
@@ -52,14 +52,14 @@ namespace MultyParser.Core.Html
         protected abstract Dictionary<string, int> GetSpecifications();
 
         /* Получение основной информации о товаре из объекта класса HtmlTovar */
-        protected abstract Dictionary<int, object> GatherCommonDataFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName);
+        protected abstract Dictionary<int, object> GatherCommonDataFromTovarObject(int tovarID, Tovar tovarObject, out string pageName);
 
         /* Получение дополнительных изображений товара товара из объекта класса HtmlTovar */
-        protected abstract List<Dictionary<int, object>> GatherAdditionalImagesFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName);
+        protected abstract List<Dictionary<int, object>> GatherAdditionalImagesFromTovarObject(int tovarID, Tovar tovarObject, out string pageName);
 
         /* Получение атрибутов товара из объекта класса HtmlTovar */
         protected abstract List<Dictionary<int, object>> GatherAttributesFromTovarObject(
-            int tovarID, HtmlTovar tovarObject, TovarGroup tovarGroup, Dictionary<int, object> dataCommon,
+            int tovarID, Tovar tovarObject, TovarGroup tovarGroup, Dictionary<int, object> dataCommon,
             Dictionary<string, int> parserSpecifications, Dictionary<string, int> forTransfer, out string pageName);
 
         /* Получение опции товара из объекта класса HtmlTovar */
@@ -69,12 +69,12 @@ namespace MultyParser.Core.Html
         protected abstract List<Dictionary<int, object>> GatherOptionValueFromTovarObject(int tovarID, string optionName, string optionValue, out string pageName);
 
         /* Получение SEO-заголовков из объекта класса HtmlTovar */
-        protected abstract Dictionary<int, object> GatherSeoKeywordsFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName);
+        protected abstract Dictionary<int, object> GatherSeoKeywordsFromTovarObject(int tovarID, Tovar tovarObject, out string pageName);
 
         protected abstract Dictionary<string, int> GetForTransferToMainPage();  // список того, что нужно перенести из спецификаций на главную
 
-        protected virtual DictionaryOfOptions GetOptionsOfTovar() => null;
-        protected virtual void ProcessOfAppendInfo(HtmlTovar tovarObject, List<string> properties) { }
+        protected virtual DictionaryOfProperty GetOptionsOfTovar() => null;
+        protected virtual void ProcessOfAppendInfo(Tovar tovarObject, List<string> properties) { }
 
         protected override void BeforeEntityLoop()
         {
@@ -86,7 +86,7 @@ namespace MultyParser.Core.Html
         protected override void ProcessingEntityInLoop(IHtmlDocument docDetails)
         {
             string pageName;
-            HtmlTovar tovarObject = GetTovarFromDocument(docDetails, GetBrandName(), GetMainOptionName());
+            Tovar tovarObject = GetTovarFromDocument(docDetails, GetBrandName(), GetMainOptionName());
             Dictionary<string, List<Dictionary<int, object>>> rowsForBook
                 = new Dictionary<string, List<Dictionary<int, object>>>();
 
@@ -122,7 +122,7 @@ namespace MultyParser.Core.Html
                     string optionsPage = null, valuesPage = null;
                     List<Dictionary<int, object>> options = new List<Dictionary<int, object>>();
                     List<Dictionary<int, object>> optionValues = new List<Dictionary<int, object>>();
-                    foreach (HtmlOption option in tovarObject.Options.Members.Keys)
+                    foreach (TovarProperty option in tovarObject.Options.Members.Keys)
                     {
                         options.AddRange(GatherOptionFromTovarObject(
                             this.EntityID, option.Name, out optionsPage));
@@ -160,10 +160,10 @@ namespace MultyParser.Core.Html
             this.ProductBookCreater.WriteDataToBook(rowsForBook);
         }
 
-        protected virtual HtmlTovar GetTovarFromDocument(IHtmlDocument doc, string brandName, string optionName)
+        protected virtual Tovar GetTovarFromDocument(IHtmlDocument doc, string brandName, string optionName)
         {
             string productName, productModel, productOption, groupName;
-            HtmlTovar result = new HtmlTovar();
+            Tovar result = new Tovar();
 
             result.Name = doc.QuerySelector(GetSelectorForTovarName()).TextContent.Trim();
             if (optionName != null)
@@ -191,7 +191,7 @@ namespace MultyParser.Core.Html
 
             result.Options = GetOptionsOfTovar();
             if (result.Options != null)
-                result.Options.ReadOptionValuesFromDocument(doc);
+                result.Options.ReadPropertyValuesFromDocument(doc);
 
             string tagSpecifics = GetSelectorForTableOfSpecifications();
             if (tagSpecifics != null)

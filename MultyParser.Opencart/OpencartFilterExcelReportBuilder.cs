@@ -1,6 +1,6 @@
 ﻿using MultyParser.Core.Excel;
 using MultyParser.Core.ExcelReportBuilder;
-using MultyParser.Core.Html;
+using MultyParser.Core;
 using System.Collections.Generic;
 
 namespace MultyParser.Opencart
@@ -34,7 +34,7 @@ namespace MultyParser.Opencart
             return result;
         }
 
-        public override Dictionary<int, object> MakeLineForOption(HtmlOption option)
+        public override Dictionary<int, object> MakeLineForOption(TovarProperty option)
         {
             Dictionary<int, object> pairs = new Dictionary<int, object>();
             pairs.Add(1, option.ID.ToString());
@@ -44,7 +44,7 @@ namespace MultyParser.Opencart
             return pairs;
         }
 
-        public override Dictionary<int, object> MakeLineForOptionValue(HtmlOption option, string value)
+        public override Dictionary<int, object> MakeLineForOptionValue(TovarProperty option, string value)
         {
             Dictionary<int, object> pairs = new Dictionary<int, object>();
             pairs.Add(1, (option.ID + EntityPos).ToString());

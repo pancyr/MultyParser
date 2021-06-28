@@ -5,13 +5,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MultyParser.Core.Html
+namespace MultyParser.Core
 {
-    public class HtmlOption
+    public class TovarProperty
     {
-        public HtmlOption() { }
+        public TovarProperty() { }
 
-        public HtmlOption(int id, string name, string type, int sortOrder, string singleSelector, string listSelector, string regPath, bool commonString)
+        public TovarProperty(int id, string name, string type, int sortOrder, string singleSelector, string listSelector, string regPath, bool commonString)
         {
             this.ID = id;
             this.Name = name;

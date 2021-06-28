@@ -61,14 +61,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes.cs" />
-    <Compile Include="DictionaryOfOptions.cs" />
+    <Compile Include="DictionaryOfProperty.cs" />
     <Compile Include="ExcelReportBuilder\PropertyExcelReportBuilder.cs" />
     <Compile Include="ExcelReportBuilder\TovarExcelReportBuilder.cs" />
     <Compile Include="Excel\ExcelBook.cs" />
-    <Compile Include="Html\HtmlOption.cs" />
+    <Compile Include="TovarProperty.cs" />
     <Compile Include="Html\HtmlParserBase.cs" />
     <Compile Include="Html\HtmlParserCreaterBase.cs" />
-    <Compile Include="Html\HtmlTovar.cs" />
+    <Compile Include="Tovar.cs" />
     <Compile Include="Excel\ExcelTovarPropertyDecimal.cs" />
     <Compile Include="Excel\ExcelParserBase.cs" />
     <Compile Include="Excel\ExcelPage.cs" />

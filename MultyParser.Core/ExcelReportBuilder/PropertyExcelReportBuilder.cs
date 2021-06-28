@@ -9,7 +9,7 @@ namespace MultyParser.Core.ExcelReportBuilder
 {
     public abstract class PropertyExcelReportBuilder : ExcelReportBuilderBase
     {
-        public abstract Dictionary<int, object> MakeLineForOption(HtmlOption option);
-        public abstract Dictionary<int, object> MakeLineForOptionValue(HtmlOption option, string value);
+        public abstract Dictionary<int, object> MakeLineForOption(TovarProperty option);
+        public abstract Dictionary<int, object> MakeLineForOptionValue(TovarProperty option, string value);
     }
 }

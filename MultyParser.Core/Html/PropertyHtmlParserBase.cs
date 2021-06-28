@@ -30,17 +30,17 @@ namespace MultyParser.Core.Html
         public override ExcelReportBuilderBase GetReportBuilderInstance() => OptionReportBuilder;
 
         /* Справочник опций - он будет заполнен при обходе страниц товара */
-        public DictionaryOfOptions Options { get; set; }
+        public DictionaryOfProperty Options { get; set; }
 
         /* Получение опции товара из словаря */
-        protected abstract List<Dictionary<int, object>> GatherOptionFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName);
+        protected abstract List<Dictionary<int, object>> GatherOptionFromDictionary(Dictionary<TovarProperty, List<string>> options, out string pageName);
 
         /* Получение значения опции товара из словаря */
-        protected abstract List<Dictionary<int, object>> GatherOptionValueFromDictionary(Dictionary<HtmlOption, List<string>> options, out string pageName);
+        protected abstract List<Dictionary<int, object>> GatherOptionValueFromDictionary(Dictionary<TovarProperty, List<string>> options, out string pageName);
 
         protected override void ProcessingEntityInLoop(IHtmlDocument docDetails)
         {
-            Options.ReadOptionValuesFromDocument(docDetails);
+            Options.ReadPropertyValuesFromDocument(docDetails);
         }
 
         protected override void AfterEntityLoop()

@@ -10,9 +10,7 @@ namespace Velveto.Conte
         public ConteOpencartOptionHtmlParser()
         {
             _optionReportBuilder = new OpencartOptionExcelReportBuilder();
-            Options = new DictionaryOfOptions();
-            Options.Add(new HtmlOption(1000, "Цвет", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"[A-zА-яЁё]+(-[A-zА-яЁё]+)?\b(?!:)", true), new List<string>());
-            Options.Add(new HtmlOption(2000, "Размер", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"\d+(-\d+)?", true), new List<string>());
+            Options = ContePropertyManager.GetListForTovarOptions();
         }
 
         public override string GetDefaultTemplate() => this.Templates["OPTI"];

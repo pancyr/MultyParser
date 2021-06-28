@@ -22,7 +22,7 @@ namespace MultyParser.Opencart
         protected override string GetSizeUnit() => "мм";
         protected override string GetMassUnit() => "кг";
 
-        protected override Dictionary<int, object> GatherCommonDataFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
+        protected override Dictionary<int, object> GatherCommonDataFromTovarObject(int tovarID, Tovar tovarObject, out string pageName)
         {
             
             pageName = OpencartTovarExcelReportBuilder.PRODUCTS_PAGE_NAME;
@@ -44,7 +44,7 @@ namespace MultyParser.Opencart
             return null;
         }
 
-        protected override List<Dictionary<int, object>> GatherAdditionalImagesFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
+        protected override List<Dictionary<int, object>> GatherAdditionalImagesFromTovarObject(int tovarID, Tovar tovarObject, out string pageName)
         {
             List<Dictionary<int, object>> result = new List<Dictionary<int, object>>();
             foreach (string photo in tovarObject.Photos)
@@ -54,7 +54,7 @@ namespace MultyParser.Opencart
         }
 
         protected override List<Dictionary<int, object>> GatherAttributesFromTovarObject(
-            int tovarID, HtmlTovar tovarObject, TovarGroup tovarGroup, Dictionary<int, object> dataCommon,
+            int tovarID, Tovar tovarObject, TovarGroup tovarGroup, Dictionary<int, object> dataCommon,
             Dictionary<string, int> parserSpecifications, Dictionary<string, int> forTransfer, out string pageName)
         {
             List<Dictionary<int, object>> result = new List<Dictionary<int, object>>();
@@ -105,7 +105,7 @@ namespace MultyParser.Opencart
             return new List<Dictionary<int, object>> { ProductBookCreater.MakeLineForOptionValue(tovarID, optionName, optionValue) };
         }
 
-        protected override Dictionary<int, object> GatherSeoKeywordsFromTovarObject(int tovarID, HtmlTovar tovarObject, out string pageName)
+        protected override Dictionary<int, object> GatherSeoKeywordsFromTovarObject(int tovarID, Tovar tovarObject, out string pageName)
         {
             pageName = OpencartTovarExcelReportBuilder.SEO_PAGE_NAME;
             return ProductBookCreater.MakeLineForSeoUrl(tovarID, tovarObject.Name);

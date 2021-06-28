@@ -52,7 +52,7 @@ namespace CompressorShop.Berg
         }
 
         protected override List<Dictionary<int, object>> GatherAttributesFromTovarObject(
-            int tovarID, HtmlTovar tovarObject, TovarGroup tovarGroup, Dictionary<int, object> dataCommon, 
+            int tovarID, Tovar tovarObject, TovarGroup tovarGroup, Dictionary<int, object> dataCommon, 
             Dictionary<string, int> parserSpecifications, Dictionary<string, int> forTransfer, out string pageName)
         {
             // получаем список атрибутов из базового класса
