@@ -128,13 +128,14 @@ namespace MultyParser.Core.Html
                     List<Dictionary<int, object>> optionValues = new List<Dictionary<int, object>>();
                     foreach (TovarProperty option in tovarObject.Options.Members.Keys)
                     {
+                        string name = option.DisplayName ?? option.Name;
                         options.AddRange(GatherOptionFromTovarObject(
-                            this.EntityID, option.Name, out optionsPage));
+                            this.EntityID, name, out optionsPage));
 
                         foreach (string val in tovarObject.Options.Members[option])
                         {
                             optionValues.AddRange(GatherOptionValueFromTovarObject(
-                                this.EntityID, option.Name, val, out optionValuesPage));
+                                this.EntityID, name, val, out optionValuesPage));
                         }
                         
                     }
@@ -154,8 +155,9 @@ namespace MultyParser.Core.Html
                     {
                         foreach (string val in tovarObject.Filters.Members[filter])
                         {
+                            string name = filter.DisplayName ?? filter.Name;
                             filterValues.AddRange(GatherFilterValueFromTovarObject(
-                                this.EntityID, filter.Name, val, out filterValuesPage));
+                                this.EntityID, name, val, out filterValuesPage));
                         }
 
                     }

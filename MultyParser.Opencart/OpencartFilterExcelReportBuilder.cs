@@ -36,11 +36,12 @@ namespace MultyParser.Opencart
 
         public override Dictionary<int, object> MakeLineForOption(TovarProperty option)
         {
+            string name = option.DisplayName ?? option.Name;
             Dictionary<int, object> pairs = new Dictionary<int, object>();
             pairs.Add(1, option.ID.ToString());
             pairs.Add(2, option.SortOrder.ToString());
-            pairs.Add(3, option.Name);
-            pairs.Add(4, option.Name);
+            pairs.Add(3, name);
+            pairs.Add(4, name);
             return pairs;
         }
 

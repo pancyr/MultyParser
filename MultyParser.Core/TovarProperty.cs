@@ -11,7 +11,7 @@ namespace MultyParser.Core
     {
         public TovarProperty() { }
 
-        public TovarProperty(int id, string name, string type, int sortOrder, string singleSelector, string listSelector, string regPath, bool commonString)
+        public TovarProperty(int id, string name, string type, int sortOrder, string singleSelector, string listSelector, string regPath, bool commonString, string displayName = null)
         {
             this.ID = id;
             this.Name = name;
@@ -21,6 +21,7 @@ namespace MultyParser.Core
             this.ListSelector = listSelector;
             this.RegPath = regPath;
             this.CommonString = commonString;
+            this.DisplayName = displayName;
         }
 
         //public const string REG_TEMPLATE = @"({0})[\s\.,;-_$]+";
@@ -33,6 +34,7 @@ namespace MultyParser.Core
         public string ListSelector { get; set; }
         public string RegPath { get; set; }
         public bool CommonString { get; set; }
+        public string DisplayName { get; set; }
 
         public bool TestRegular(string input)
         {

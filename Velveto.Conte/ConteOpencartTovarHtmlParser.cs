@@ -32,7 +32,7 @@ namespace Velveto.Conte
 
         public override int GetVolumeSize() => 80;
 
-        protected override string GetCodeOfTovarGroup() => "TIGHTS";
+        protected override string GetCodeOfTovarGroup() => "FEMALE";
 
         private Dictionary<string, string> _departmentCategories;
         public override Dictionary<string, string> DepartmentCategories
