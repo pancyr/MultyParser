@@ -17,7 +17,7 @@ namespace Velveto.Conte
         {
             DictionaryOfProperty result = GetListForTovarOptions();
             result.Add(new TovarProperty(3000, "Плотность", "radio", 1, null, "span.ty-control-group>*", @"\d+ ден", true), new List<string>());
-            result.Add(new TovarProperty(4000, "Бренд", "radio", 1, null, "span.ty-control-group>*", @"[A-z]\b(?!:)", true, "Коллекция"), new List<string>());
+            result.Add(new TovarProperty(4000, "Бренд", "radio", 1, null, "span.ty-control-group>*", @"[A-z]\b(?!:)", true), new List<string>());
             return result;
         }
     }
