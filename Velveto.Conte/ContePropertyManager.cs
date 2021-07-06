@@ -8,7 +8,7 @@ namespace Velveto.Conte
         public static DictionaryOfProperty GetListForTovarOptions()
         {
             DictionaryOfProperty result = new DictionaryOfProperty();
-            result.Add(new TovarProperty(1000, "Цвет", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"[A-zА-яЁё]+(-[A-zА-яЁё]+)?\b(?!:)", true), new List<string>());
+            result.Add(new TovarProperty(1000, "Цвет", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"^[A-zА-яЁё]+((-|\. |\.)[A-zА-яЁё]+)*\b(?!:)", true), new List<string>());
             result.Add(new TovarProperty(2000, "Размер", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"\d+(-\d+)?", true), new List<string>());
             return result;
         }

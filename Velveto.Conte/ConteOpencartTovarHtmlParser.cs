@@ -42,13 +42,53 @@ namespace Velveto.Conte
                 if (_departmentCategories == null)
                     _departmentCategories = new Dictionary<string, string>
                     {
+                        {"byustgaltery", "10,600,610"},
+                        {"bodi", "10,600,620"},
+                        {"trusy", "10,600,630"},
+                        {"topy", "10,600,640"},
+                        {"mayki", "10,600,650"},
+                        {"termobele", "10,600,660"}
+
+                        /*
+                        {"bridzhi", "10,500,510"},
+                        {"bryuki", "10,500,520"},
+                        {"trikotazhnye", "10,500,530"},
+                        {"fantaziynye", "10,500,540"},
+                        {"azhurnye", "10,500,550"},
+                        {"teplye", "10,500,560"},
+                        {"legginsy-dlya-beremennyh", "10,500,570"}
+
+                        {"golfy", "10,400"}
+
+                        {"golfy", "10,400,410"},
+                        {"korotkie", "10,300,320"},
+                        {"fantaziynye", "10,300,330"},
+                        {"disney", "10,300,340"},
+                        {"poliamidnye", "10,300,350"},
+                        {"teplye", "10,300,360"},
+                        {"novogodnie", "10,300,370"}*/
+
+                        /*
+                        {"klassicheskie", "10,300,310"},
+                        {"korotkie", "10,300,320"},
+                        {"fantaziynye", "10,300,330"},
+                        {"disney", "10,300,340"},
+                        {"poliamidnye", "10,300,350"},
+                        {"teplye", "10,300,360"},
+                        {"novogodnie", "10,300,370"}
+                        
+                        {"klassicheskie", "10,200,210"},
+                        {"fantaziynye", "10,200,220"},
+                        {"svadebnye", "10,200,230"},
+                        {"golfiny", "10,200,240"}
+
                         {"klassicheskie", "10,100,110"},
                         {"korrektiruyuschie", "10,100,120"},
                         {"fantaziynye", "10,100,130"},
                         {"azhurnye", "10,100,140"},
                         {"teplye", "10,100,150"},
                         {"svadebnye", "10,100,160"},
-                        {"dlya-beremennyh", "10,100,170"}
+                        {"dlya-beremennyh", "10,100,170"}*/
                     };
                 return _departmentCategories;
             }
