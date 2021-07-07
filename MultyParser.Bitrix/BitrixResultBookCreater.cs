@@ -82,6 +82,13 @@ namespace MultyParser.Bitrix
             return result;
         }
 
+        public override void SetTovarTitle(string title, Dictionary<int, object> data)
+        {
+            // поле meta_Title
+            data.Add(32, title);
+            data.Add(33, title);
+        }
+
         public override Dictionary<int, object> MakeLineForProductPage(int tovarID, string tovarName, string groups, int quantity, string brand, string mainPhoto, string price, string massUnit, string sizeUnit, string description, string metaTitle, string metaDescription, string metaKeywords)
         {
             throw new NotImplementedException();

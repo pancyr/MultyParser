@@ -11,16 +11,16 @@ namespace MultyParser.Core
     {
         public TovarProperty() { }
 
-        public TovarProperty(int id, string name, string type, int sortOrder, string singleSelector, string listSelector, string regPath, bool commonString, string displayName = null)
+        public TovarProperty(int id, string name, string type, int sortOrder, string regPath, string listSelector, string singleSelector = null, string separators = null, string displayName = null)
         {
             this.ID = id;
             this.Name = name;
             this.Type = type;
             this.SortOrder = sortOrder;
-            this.SingleSelector = singleSelector;
-            this.ListSelector = listSelector;
             this.RegPath = regPath;
-            this.CommonString = commonString;
+            this.ListSelector = listSelector;
+            this.SingleSelector = singleSelector;
+            this.Separators = separators;
             this.DisplayName = displayName;
         }
 
@@ -30,10 +30,10 @@ namespace MultyParser.Core
         public string Name { get; set; }
         public string Type { get; set; }
         public int SortOrder { get; set; }
-        public string SingleSelector { get; set; }
-        public string ListSelector { get; set; }
         public string RegPath { get; set; }
-        public bool CommonString { get; set; }
+        public string ListSelector { get; set; }
+        public string SingleSelector { get; set; }
+        public string Separators { get; set; }
         public string DisplayName { get; set; }
 
         public bool TestRegular(string input)
@@ -44,10 +44,10 @@ namespace MultyParser.Core
             return reg.IsMatch(input);
         }
 
-        public List<string> ParseValuesFromString(string common)
+        public List<string> Separate(string common)
         {
-            //string regular = String.Format(REG_TEMPLATE, RegPath);
-            MatchCollection matches = new Regex(RegPath, RegexOptions.IgnoreCase).Matches(common);
+            string regular = String.Format(@"[^{0}]+\b(?!:)", Separators);
+            MatchCollection matches = new Regex(regular).Matches(common);
             List<string> result = new List<string>();
             foreach (Match m in matches)
                 result.Add(m.ToString());

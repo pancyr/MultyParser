@@ -132,6 +132,13 @@ namespace MultyParser.Opencart
             return result;
         }
 
+        public override void SetTovarTitle(string title, Dictionary<int, object> data)
+        {
+            // поле meta_Title
+            data.Add(32, title);
+            data.Add(33, title);
+        }
+
         public override Dictionary<int, object> MakeLineForProductPage(
             int tovarID, string tovarName, string groups, int quantity, string brand,
             string mainPhoto, string price, string massUnit, string sizeUnit,
@@ -159,10 +166,6 @@ namespace MultyParser.Opencart
             dataCommon.Add(29, 9);
             dataCommon.Add(30, description);
             dataCommon.Add(31, description);
-
-            // поле meta_Title
-            dataCommon.Add(32, metaTitle);
-            dataCommon.Add(33, metaTitle);
 
             // поле meta_Description
             

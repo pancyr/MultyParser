@@ -92,7 +92,6 @@
     <ProjectReference Include="..\MultyParser.Configuration\MultyParser.Configuration.csproj">
       <Project>{8860a437-a509-47a1-ba87-e3f56b2c2fe7}</Project>
       <Name>MultyParser.Configuration</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

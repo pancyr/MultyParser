@@ -13,6 +13,8 @@ namespace MultyParser.Core.ExcelReportBuilder
             string mainPhoto, string price, string massUnit, string sizeUnit,
             string description, string metaTitle, string metaDescription, string metaKeywords);
 
+        public abstract void SetTovarTitle(string title, Dictionary<int, object> data);
+
         public abstract Dictionary<int, object> MakeLineForAdditionalImage(int tovarID, string imagePath);
         public abstract Dictionary<int, object> MakeLineForOption(int tovarID, string optionName);
         public abstract Dictionary<int, object> MakeLineForOptionValue(int tovarID, string optionName, string optionValue);

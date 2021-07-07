@@ -50,6 +50,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MultyParser.Configuration\MultyParser.Configuration.csproj">
+      <Project>{8860a437-a509-47a1-ba87-e3f56b2c2fe7}</Project>
+      <Name>MultyParser.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MultyParser.Core\MultyParser.Core.csproj">
       <Project>{e3724595-d546-432d-a1c9-29ab9adf7613}</Project>
       <Name>MultyParser.Core</Name>

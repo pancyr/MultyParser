@@ -8,6 +8,19 @@ namespace MultyParser.Core
 {
     public class DictionaryOfProperty
     {
+        public TovarProperty MainProperty { get; set; }
+
+        public List<string> GetMainList() => Members[MainProperty];
+
+        public string GetMainAsSingleString()
+        {
+            string result = "";
+            List<string> values = GetMainList();
+            foreach (string val in values)
+                result += (result.Length > 0) ? ", " + val : val;
+            return result;
+        }
+
         private Dictionary<TovarProperty, List<string>> _members;
         public Dictionary<TovarProperty, List<string>> Members
         {
@@ -28,28 +41,24 @@ namespace MultyParser.Core
         {
             foreach (TovarProperty option in Members.Keys)
             {
-                bool commonStringFound = false;
-                if (option.CommonString && option.SingleSelector != null && option.SingleSelector.Length > 0)
+                List<string> listItems = null;
+                IEnumerable<IElement> tags = null;
+                if (option.SingleSelector != null && option.SingleSelector.Length > 0)
                 {
-                    IEnumerable<IElement> tags = document.QuerySelectorAll(option.SingleSelector)
+                    tags = document.QuerySelectorAll(option.SingleSelector)
                         .Where(p => p.TextContent.StartsWith(option.Name));
-                    if (tags.Count() > 0)
-                    {
-                        commonStringFound = true;
-                        List<string> values = option.ParseValuesFromString(tags.First().TextContent);
-                        foreach (string val in values)
-                        {
-                            if (!Members[option].Contains(val.ToLower()))
-                                Members[option].Add(val.ToLower());
-                        }
-                    }
                 }
-                if (option.ListSelector != null && option.ListSelector.Length > 0 && (!option.CommonString || !commonStringFound))
+
+                if (tags != null && tags.Count() > 0)
+                    listItems = option.Separate(tags.First().TextContent);
+                else if (option.ListSelector != null && option.ListSelector.Length > 0)
+                    listItems = document.QuerySelectorAll(option.ListSelector).Select(s => s.TextContent).ToList();
+
+                if (listItems != null)
                 {
-                    var listItems = document.QuerySelectorAll(option.ListSelector);
                     foreach (var item in listItems)
                     {
-                        string val = item.TextContent.Trim().ToLower();
+                        string val = item.Trim().ToLower();
                         if (option.TestRegular(val) && !Members[option].Contains(val))
                             Members[option].Add(val);
                     }

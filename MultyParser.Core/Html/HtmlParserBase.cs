@@ -25,6 +25,11 @@ namespace MultyParser.Core.Html
         protected virtual void BeforeEntityLoop() { }
         protected virtual void AfterEntityLoop() { }
 
+        protected virtual bool PostProcessData(Tovar tovar, Dictionary<int, object> data)
+        {
+            return true;
+        }
+
         public virtual bool DoParsingOfIncomingHtml(string link, DoWorkEventArgs args)
         {
             /* Получаем все ссылки пагинации, чтобы подсчитать ко-во страниц */

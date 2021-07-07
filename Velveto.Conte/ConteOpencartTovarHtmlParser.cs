@@ -4,6 +4,9 @@ using MultyParser.Core;
 using MultyParser.Core.Html;
 using MultyParser.Opencart;
 
+using MultyParser.Configuration;
+using MultyParser.Core.ExcelReportBuilder;
+
 namespace Velveto.Conte
 {
     public class ConteOpencartTovarHtmlParser : OpencartTovarHtmlParserBase
@@ -42,14 +45,22 @@ namespace Velveto.Conte
                 if (_departmentCategories == null)
                     _departmentCategories = new Dictionary<string, string>
                     {
+                        {"klassicheskie", "10,100,110"},
+                        {"korrektiruyuschie", "10,100,120"},
+                        {"fantaziynye", "10,100,130"},
+                        {"azhurnye", "10,100,140"},
+                        {"teplye", "10,100,150"},
+                        {"svadebnye", "10,100,160"},
+                        {"dlya-beremennyh", "10,100,170"}
+
+                        /*
                         {"byustgaltery", "10,600,610"},
                         {"bodi", "10,600,620"},
                         {"trusy", "10,600,630"},
                         {"topy", "10,600,640"},
                         {"mayki", "10,600,650"},
                         {"termobele", "10,600,660"}
-
-                        /*
+                        
                         {"bridzhi", "10,500,510"},
                         {"bryuki", "10,500,520"},
                         {"trikotazhnye", "10,500,530"},
@@ -60,15 +71,6 @@ namespace Velveto.Conte
 
                         {"golfy", "10,400"}
 
-                        {"golfy", "10,400,410"},
-                        {"korotkie", "10,300,320"},
-                        {"fantaziynye", "10,300,330"},
-                        {"disney", "10,300,340"},
-                        {"poliamidnye", "10,300,350"},
-                        {"teplye", "10,300,360"},
-                        {"novogodnie", "10,300,370"}*/
-
-                        /*
                         {"klassicheskie", "10,300,310"},
                         {"korotkie", "10,300,320"},
                         {"fantaziynye", "10,300,330"},
@@ -111,6 +113,15 @@ namespace Velveto.Conte
             result.Add("Бренд", 13);
             return result;
         }
+
+        protected override bool PostProcessData(Tovar tovar, Dictionary<int, object> data)
+        {
+            string colors = tovar.Options.GetMainAsSingleString();
+            string title = string.Format(MultyParserConfigSection.Settings.TitlePattern, tovar.Name, colors);
+            ((TovarExcelReportBuilder)GetReportBuilderInstance()).SetTovarTitle(title, data);
+            return true;
+        }
+
         protected override void ProcessOfAppendInfo(Tovar tovarObject, List<string> properties)
         {
             string description = "";

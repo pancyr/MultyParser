@@ -4,6 +4,12 @@ namespace MultyParser.Configuration
 {
     public class MultyParserConfigSection : ConfigurationSection
     {
+        [ConfigurationProperty("titlePattern")]
+        public string TitlePattern
+        {
+            get { return (string)this["titlePattern"]; }
+        }
+
         [ConfigurationProperty("TovarGroups", IsDefaultCollection = true)]
         public TovarGroupConfigCollection TovarGroups
         {

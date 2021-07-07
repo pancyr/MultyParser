@@ -93,13 +93,14 @@ namespace MultyParser.Core.Html
             Tovar tovarObject = GetTovarFromDocument(docDetails, GetBrandName(), GetMainOptionName());
             Dictionary<string, List<Dictionary<int, object>>> rowsForBook
                 = new Dictionary<string, List<Dictionary<int, object>>>();
+            Dictionary<int, object> dataCommon = null;
 
             if (PriorTovar == null || PriorTovar.Name != tovarObject.Name) // если прочитан новый товар, заполняем основную информацию и атрибуты
             {
                 this.EntityID++;
 
                 /* Записываем основные данные о товаре */
-                Dictionary<int, object> dataCommon = this.GatherCommonDataFromTovarObject(this.EntityID, tovarObject, out pageName);
+               dataCommon = this.GatherCommonDataFromTovarObject(this.EntityID, tovarObject, out pageName);
                 rowsForBook.Add(pageName, new List<Dictionary<int, object>> { dataCommon });
 
                 /* Дополнительные фотографии товара */
@@ -180,7 +181,8 @@ namespace MultyParser.Core.Html
                     this.EntityID, GetMainOptionName(), tovarObject.MainOptionValue, out pageName);
                 rowsForBook.Add(pageName, optionValues);
             }
-
+            if (dataCommon != null)
+                this.PostProcessData(tovarObject, dataCommon);
             this.ProductBookCreater.WriteDataToBook(rowsForBook);
         }
 

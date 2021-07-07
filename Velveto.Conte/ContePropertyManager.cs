@@ -8,16 +8,21 @@ namespace Velveto.Conte
         public static DictionaryOfProperty GetListForTovarOptions()
         {
             DictionaryOfProperty result = new DictionaryOfProperty();
-            result.Add(new TovarProperty(1000, "Цвет", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"^[A-zА-яЁё]+((-|\. |\.)[A-zА-яЁё]+)*\b(?!:)", true), new List<string>());
-            result.Add(new TovarProperty(2000, "Размер", "radio", 1, ".content-description>div>*", ".ty-product-options__radio--label", @"\d+(-\d+)?", true), new List<string>());
+            TovarProperty colors = new TovarProperty(1000, "Цвет", "radio", 1,
+                @"^[A-zА-яЁё]+((-|\. |\.)[A-zА-яЁё]+)*", 
+                ".ty-product-options__radio--label",  ".content-description>div>*", @",;\s$");
+            result.MainProperty = colors;
+            result.Add(colors, new List<string>());
+            result.Add(new TovarProperty(2000, "Размер", "radio", 1, @"\d+(-\d+)?",
+                ".ty-product-options__radio--label", ".content-description>div>*", @",;\s$"), new List<string>());
             return result;
         }
 
         public static DictionaryOfProperty GetListForTovarFilters()
         {
             DictionaryOfProperty result = GetListForTovarOptions();
-            result.Add(new TovarProperty(3000, "Плотность", "radio", 1, null, "span.ty-control-group>*", @"\d+ ден", true), new List<string>());
-            result.Add(new TovarProperty(4000, "Бренд", "radio", 1, null, "span.ty-control-group>*", @"[A-z]\b(?!:)", true), new List<string>());
+            result.Add(new TovarProperty(3000, "Плотность", "radio", 1, @"\d+ ден", "span.ty-control-group>*"), new List<string>());
+            result.Add(new TovarProperty(4000, "Бренд", "radio", 1, @"[A-z]\b(?!:)", "span.ty-control-group>*"), new List<string>());
             return result;
         }
     }
