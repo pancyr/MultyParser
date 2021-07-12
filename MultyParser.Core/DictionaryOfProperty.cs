@@ -41,18 +41,8 @@ namespace MultyParser.Core
         {
             foreach (TovarProperty option in Members.Keys)
             {
-                List<string> listItems = null;
-                IEnumerable<IElement> tags = null;
-                if (option.SingleSelector != null && option.SingleSelector.Length > 0)
-                {
-                    tags = document.QuerySelectorAll(option.SingleSelector)
-                        .Where(p => p.TextContent.StartsWith(option.Name));
-                }
-
-                if (tags != null && tags.Count() > 0)
-                    listItems = option.Separate(tags.First().TextContent);
-                else if (option.ListSelector != null && option.ListSelector.Length > 0)
-                    listItems = document.QuerySelectorAll(option.ListSelector).Select(s => s.TextContent).ToList();
+                List<string> listItems = option.ListFirst ?
+                    option.FindListOfValuesFirst(document) : option.FindSingleValueFirst(document);
 
                 if (listItems != null)
                 {

@@ -11,11 +11,17 @@ namespace MultyParser.Core
 {
     public abstract class ParserBase
     {
+        public const string REGULAR_COLORS = @"^[A-zА-яЁё]+((-|\.\s?)[A-zА-яЁё()]+)*";
+        public const string REGULAR_SIZES = @"\d+(-\d+)*(\(\d+(-\d+)*\))*";
+
         public const int PARSER_FOR_PRODUCTS = 1;
         public const int PARSER_FOR_OPTIONS = 2;
         public const int PARSER_FOR_FILTERS = 3;
 
-        public ParserBase() { }
+        public ParserBase() 
+        {
+            this.Transliter = new MpTransliter();
+        }
 
         public string DepartmentName { get; set; } // подраздел
 
@@ -24,6 +30,8 @@ namespace MultyParser.Core
         public int CurrentPageNum { get; set; }
         public int TotalPages { get; set; }
         public int TotalRows { get; set; }
+
+        public Transliteration Transliter { get; set; }
 
         protected Dictionary<string, string> _templates;
         public Dictionary<string, string> Templates

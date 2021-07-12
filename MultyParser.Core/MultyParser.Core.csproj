@@ -65,6 +65,7 @@
     <Compile Include="ExcelReportBuilder\PropertyExcelReportBuilder.cs" />
     <Compile Include="ExcelReportBuilder\TovarExcelReportBuilder.cs" />
     <Compile Include="Excel\ExcelBook.cs" />
+    <Compile Include="MpTransliter.cs" />
     <Compile Include="TovarProperty.cs" />
     <Compile Include="Html\HtmlParserBase.cs" />
     <Compile Include="Html\HtmlParserCreaterBase.cs" />

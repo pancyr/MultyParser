@@ -119,7 +119,7 @@ namespace MultyParser.Bitrix
             throw new NotImplementedException();
         }
 
-        public override Dictionary<int, object> MakeLineForSeoUrl(int tovarID, string productName)
+        public override Dictionary<int, object> MakeLineForSeoUrl(int tovarID, string productName, Transliteration translit)
         {
             throw new NotImplementedException();
         }

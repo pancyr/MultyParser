@@ -2,7 +2,7 @@
 
 namespace MultyParser.Core
 {
-    public static class Transliteration
+    public class Transliteration
     {
         public enum TransliterationType
         {
@@ -10,10 +10,183 @@ namespace MultyParser.Core
             ISO
         }
 
-        private static Dictionary<string, string> gost = new Dictionary<string, string>(); //ГОСТ 16876-71
-        private static Dictionary<string, string> iso = new Dictionary<string, string>(); //ISO 9-95
+        private Dictionary<string, string> _gost;
+        public Dictionary<string, string> Gost
+        {
+            get
+            {
+                if (_gost == null)
+                {
+                    _gost = new Dictionary<string, string>();
+                    _gost.Add("Є", "EH");
+                    _gost.Add("І", "I");
+                    _gost.Add("і", "i");
+                    _gost.Add("№", "#");
+                    _gost.Add("є", "eh");
+                    _gost.Add("А", "A");
+                    _gost.Add("Б", "B");
+                    _gost.Add("В", "V");
+                    _gost.Add("Г", "G");
+                    _gost.Add("Д", "D");
+                    _gost.Add("Е", "E");
+                    _gost.Add("Ё", "JO");
+                    _gost.Add("Ж", "ZH");
+                    _gost.Add("З", "Z");
+                    _gost.Add("И", "I");
+                    _gost.Add("Й", "JJ");
+                    _gost.Add("К", "K");
+                    _gost.Add("Л", "L");
+                    _gost.Add("М", "M");
+                    _gost.Add("Н", "N");
+                    _gost.Add("О", "O");
+                    _gost.Add("П", "P");
+                    _gost.Add("Р", "R");
+                    _gost.Add("С", "S");
+                    _gost.Add("Т", "T");
+                    _gost.Add("У", "U");
+                    _gost.Add("Ф", "F");
+                    _gost.Add("Х", "KH");
+                    _gost.Add("Ц", "C");
+                    _gost.Add("Ч", "CH");
+                    _gost.Add("Ш", "SH");
+                    _gost.Add("Щ", "SHH");
+                    _gost.Add("Ъ", "'");
+                    _gost.Add("Ы", "Y");
+                    _gost.Add("Ь", "");
+                    _gost.Add("Э", "EH");
+                    _gost.Add("Ю", "YU");
+                    _gost.Add("Я", "YA");
+                    _gost.Add("а", "a");
+                    _gost.Add("б", "b");
+                    _gost.Add("в", "v");
+                    _gost.Add("г", "g");
+                    _gost.Add("д", "d");
+                    _gost.Add("е", "e");
+                    _gost.Add("ё", "jo");
+                    _gost.Add("ж", "zh");
+                    _gost.Add("з", "z");
+                    _gost.Add("и", "i");
+                    _gost.Add("й", "jj");
+                    _gost.Add("к", "k");
+                    _gost.Add("л", "l");
+                    _gost.Add("м", "m");
+                    _gost.Add("н", "n");
+                    _gost.Add("о", "o");
+                    _gost.Add("п", "p");
+                    _gost.Add("р", "r");
+                    _gost.Add("с", "s");
+                    _gost.Add("т", "t");
+                    _gost.Add("у", "u");
+                    _gost.Add("ф", "f");
+                    _gost.Add("х", "kh");
+                    _gost.Add("ц", "c");
+                    _gost.Add("ч", "ch");
+                    _gost.Add("ш", "sh");
+                    _gost.Add("щ", "shh");
+                    _gost.Add("ъ", "");
+                    _gost.Add("ы", "y");
+                    _gost.Add("ь", "");
+                    _gost.Add("э", "eh");
+                    _gost.Add("ю", "yu");
+                    _gost.Add("я", "ya");
+                    _gost.Add("«", "");
+                    _gost.Add("»", "");
+                    _gost.Add("—", "-");
+                }
+                return _gost;
+            }
+        }
 
-        public static string Front(string text, TransliterationType type = TransliterationType.ISO)
+        private Dictionary<string, string> _iso;
+        public Dictionary<string, string> Iso
+        {
+            get
+            {
+                if (_iso == null)
+                {
+                    _iso = new Dictionary<string, string>();
+                    _iso.Add("Є", "YE");
+                    _iso.Add("І", "I");
+                    _iso.Add("Ѓ", "G");
+                    _iso.Add("і", "i");
+                    _iso.Add("№", "#");
+                    _iso.Add("є", "ye");
+                    _iso.Add("ѓ", "g");
+                    _iso.Add("А", "A");
+                    _iso.Add("Б", "B");
+                    _iso.Add("В", "V");
+                    _iso.Add("Г", "G");
+                    _iso.Add("Д", "D");
+                    _iso.Add("Е", "E");
+                    _iso.Add("Ё", "YO");
+                    _iso.Add("Ж", "ZH");
+                    _iso.Add("З", "Z");
+                    _iso.Add("И", "I");
+                    _iso.Add("Й", "J");
+                    _iso.Add("К", "K");
+                    _iso.Add("Л", "L");
+                    _iso.Add("М", "M");
+                    _iso.Add("Н", "N");
+                    _iso.Add("О", "O");
+                    _iso.Add("П", "P");
+                    _iso.Add("Р", "R");
+                    _iso.Add("С", "S");
+                    _iso.Add("Т", "T");
+                    _iso.Add("У", "U");
+                    _iso.Add("Ф", "F");
+                    _iso.Add("Х", "X");
+                    _iso.Add("Ц", "C");
+                    _iso.Add("Ч", "CH");
+                    _iso.Add("Ш", "SH");
+                    _iso.Add("Щ", "SHH");
+                    _iso.Add("Ъ", "'");
+                    _iso.Add("Ы", "Y");
+                    _iso.Add("Ь", "");
+                    _iso.Add("Э", "E");
+                    _iso.Add("Ю", "YU");
+                    _iso.Add("Я", "YA");
+                    _iso.Add("а", "a");
+                    _iso.Add("б", "b");
+                    _iso.Add("в", "v");
+                    _iso.Add("г", "g");
+                    _iso.Add("д", "d");
+                    _iso.Add("е", "e");
+                    _iso.Add("ё", "yo");
+                    _iso.Add("ж", "zh");
+                    _iso.Add("з", "z");
+                    _iso.Add("и", "i");
+                    _iso.Add("й", "j");
+                    _iso.Add("к", "k");
+                    _iso.Add("л", "l");
+                    _iso.Add("м", "m");
+                    _iso.Add("н", "n");
+                    _iso.Add("о", "o");
+                    _iso.Add("п", "p");
+                    _iso.Add("р", "r");
+                    _iso.Add("с", "s");
+                    _iso.Add("т", "t");
+                    _iso.Add("у", "u");
+                    _iso.Add("ф", "f");
+                    _iso.Add("х", "x");
+                    _iso.Add("ц", "c");
+                    _iso.Add("ч", "ch");
+                    _iso.Add("ш", "sh");
+                    _iso.Add("щ", "shh");
+                    _iso.Add("ъ", "");
+                    _iso.Add("ы", "y");
+                    _iso.Add("ь", "");
+                    _iso.Add("э", "e");
+                    _iso.Add("ю", "yu");
+                    _iso.Add("я", "ya");
+                    _iso.Add("«", "");
+                    _iso.Add("»", "");
+                    _iso.Add("—", "-");
+                }
+                return _iso;
+            }
+        }
+
+        public virtual string Front(string text, TransliterationType type = TransliterationType.ISO)
         {
             string output = text;
             Dictionary<string, string> tdict = GetDictionaryByType(type);
@@ -25,7 +198,7 @@ namespace MultyParser.Core
             return output;
         }
 
-        public static string Back(string text, TransliterationType type = TransliterationType.ISO)
+        public virtual string Back(string text, TransliterationType type = TransliterationType.ISO)
         {
             string output = text;
             Dictionary<string, string> tdict = GetDictionaryByType(type);
@@ -37,167 +210,6 @@ namespace MultyParser.Core
             return output;
         }
 
-        private static Dictionary<string, string> GetDictionaryByType(TransliterationType type)
-        {
-            Dictionary<string, string> tdict = iso;
-            if (type == TransliterationType.Gost) tdict = gost;
-            return tdict;
-        }
-
-        static Transliteration()
-        {
-            gost.Add("Є", "EH");
-            gost.Add("І", "I");
-            gost.Add("і", "i");
-            gost.Add("№", "#");
-            gost.Add("є", "eh");
-            gost.Add("А", "A");
-            gost.Add("Б", "B");
-            gost.Add("В", "V");
-            gost.Add("Г", "G");
-            gost.Add("Д", "D");
-            gost.Add("Е", "E");
-            gost.Add("Ё", "JO");
-            gost.Add("Ж", "ZH");
-            gost.Add("З", "Z");
-            gost.Add("И", "I");
-            gost.Add("Й", "JJ");
-            gost.Add("К", "K");
-            gost.Add("Л", "L");
-            gost.Add("М", "M");
-            gost.Add("Н", "N");
-            gost.Add("О", "O");
-            gost.Add("П", "P");
-            gost.Add("Р", "R");
-            gost.Add("С", "S");
-            gost.Add("Т", "T");
-            gost.Add("У", "U");
-            gost.Add("Ф", "F");
-            gost.Add("Х", "KH");
-            gost.Add("Ц", "C");
-            gost.Add("Ч", "CH");
-            gost.Add("Ш", "SH");
-            gost.Add("Щ", "SHH");
-            gost.Add("Ъ", "'");
-            gost.Add("Ы", "Y");
-            gost.Add("Ь", "");
-            gost.Add("Э", "EH");
-            gost.Add("Ю", "YU");
-            gost.Add("Я", "YA");
-            gost.Add("а", "a");
-            gost.Add("б", "b");
-            gost.Add("в", "v");
-            gost.Add("г", "g");
-            gost.Add("д", "d");
-            gost.Add("е", "e");
-            gost.Add("ё", "jo");
-            gost.Add("ж", "zh");
-            gost.Add("з", "z");
-            gost.Add("и", "i");
-            gost.Add("й", "jj");
-            gost.Add("к", "k");
-            gost.Add("л", "l");
-            gost.Add("м", "m");
-            gost.Add("н", "n");
-            gost.Add("о", "o");
-            gost.Add("п", "p");
-            gost.Add("р", "r");
-            gost.Add("с", "s");
-            gost.Add("т", "t");
-            gost.Add("у", "u");
-
-            gost.Add("ф", "f");
-            gost.Add("х", "kh");
-            gost.Add("ц", "c");
-            gost.Add("ч", "ch");
-            gost.Add("ш", "sh");
-            gost.Add("щ", "shh");
-            gost.Add("ъ", "");
-            gost.Add("ы", "y");
-            gost.Add("ь", "");
-            gost.Add("э", "eh");
-            gost.Add("ю", "yu");
-            gost.Add("я", "ya");
-            gost.Add("«", "");
-            gost.Add("»", "");
-            gost.Add("—", "-");
-
-            iso.Add("Є", "YE");
-            iso.Add("І", "I");
-            iso.Add("Ѓ", "G");
-            iso.Add("і", "i");
-            iso.Add("№", "#");
-            iso.Add("є", "ye");
-            iso.Add("ѓ", "g");
-            iso.Add("А", "A");
-            iso.Add("Б", "B");
-            iso.Add("В", "V");
-            iso.Add("Г", "G");
-            iso.Add("Д", "D");
-            iso.Add("Е", "E");
-            iso.Add("Ё", "YO");
-            iso.Add("Ж", "ZH");
-            iso.Add("З", "Z");
-            iso.Add("И", "I");
-            iso.Add("Й", "J");
-            iso.Add("К", "K");
-            iso.Add("Л", "L");
-            iso.Add("М", "M");
-            iso.Add("Н", "N");
-            iso.Add("О", "O");
-            iso.Add("П", "P");
-            iso.Add("Р", "R");
-            iso.Add("С", "S");
-            iso.Add("Т", "T");
-            iso.Add("У", "U");
-            iso.Add("Ф", "F");
-            iso.Add("Х", "X");
-            iso.Add("Ц", "C");
-            iso.Add("Ч", "CH");
-            iso.Add("Ш", "SH");
-            iso.Add("Щ", "SHH");
-            iso.Add("Ъ", "'");
-            iso.Add("Ы", "Y");
-            iso.Add("Ь", "");
-            iso.Add("Э", "E");
-            iso.Add("Ю", "YU");
-            iso.Add("Я", "YA");
-            iso.Add("а", "a");
-            iso.Add("б", "b");
-            iso.Add("в", "v");
-            iso.Add("г", "g");
-            iso.Add("д", "d");
-            iso.Add("е", "e");
-            iso.Add("ё", "yo");
-            iso.Add("ж", "zh");
-            iso.Add("з", "z");
-            iso.Add("и", "i");
-            iso.Add("й", "j");
-            iso.Add("к", "k");
-            iso.Add("л", "l");
-            iso.Add("м", "m");
-            iso.Add("н", "n");
-            iso.Add("о", "o");
-            iso.Add("п", "p");
-            iso.Add("р", "r");
-            iso.Add("с", "s");
-            iso.Add("т", "t");
-            iso.Add("у", "u");
-            iso.Add("ф", "f");
-            iso.Add("х", "x");
-            iso.Add("ц", "c");
-            iso.Add("ч", "ch");
-            iso.Add("ш", "sh");
-            iso.Add("щ", "shh");
-            iso.Add("ъ", "");
-            iso.Add("ы", "y");
-            iso.Add("ь", "");
-            iso.Add("э", "e");
-            iso.Add("ю", "yu");
-            iso.Add("я", "ya");
-            iso.Add("«", "");
-            iso.Add("»", "");
-            iso.Add("—", "-");
-        }
+        private Dictionary<string, string> GetDictionaryByType(TransliterationType type) => (type == TransliterationType.Gost) ? Gost : Iso;
     }
 }

@@ -114,7 +114,7 @@ namespace MultyParser.Opencart
         protected override Dictionary<int, object> GatherSeoKeywordsFromTovarObject(int tovarID, Tovar tovarObject, out string pageName)
         {
             pageName = OpencartTovarExcelReportBuilder.SEO_PAGE_NAME;
-            return ProductBookCreater.MakeLineForSeoUrl(tovarID, tovarObject.Name);
+            return ProductBookCreater.MakeLineForSeoUrl(tovarID, tovarObject.Name, Transliter);
         }
     }
 }

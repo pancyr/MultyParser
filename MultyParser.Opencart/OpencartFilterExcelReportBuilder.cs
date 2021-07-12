@@ -31,6 +31,7 @@ namespace MultyParser.Opencart
                 [5] = "name(ru-ru)"
             });
             ExcelBook result = CreateBookForResultData(titles, filePath);
+            result.Pages[VALUES_PAGE_NAME].MakeColumnStringFormat(new int[] { 4, 5 });
             return result;
         }
 

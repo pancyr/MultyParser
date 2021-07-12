@@ -127,8 +127,10 @@ namespace MultyParser.Opencart
             result.Pages[PRODUCTS_PAGE_NAME].CentrateRow(1);
             result.Pages[PRODUCTS_PAGE_NAME].MakeColumnStringFormat
                 (new int[]{ 4, 19, 20, 21, 28, 45});
-            result.Pages[OPTIONS_PAGE_NAME].MakeColumnStringFormat(4);
-            result.Pages[OPTION_VALUES_PAGE_NAME].MakeColumnStringFormat(5);
+            result.Pages[OPTIONS_PAGE_NAME].MakeColumnStringFormat(new int[] { 3, 4 });
+            result.Pages[OPTION_VALUES_PAGE_NAME].MakeColumnStringFormat(new int[] { 3, 5 });
+            result.Pages[ATTRIBUTES_PAGE_NAME].MakeColumnStringFormat(new int[] { 4, 5 });
+            result.Pages[FILTERS_PAGE_NAME].MakeColumnStringFormat(3);
             return result;
         }
 
@@ -242,9 +244,9 @@ namespace MultyParser.Opencart
             return result;
         }
 
-        public override Dictionary<int, object> MakeLineForSeoUrl(int tovarID, string productName)
+        public override Dictionary<int, object> MakeLineForSeoUrl(int tovarID, string productName, Transliteration translit)
         {
-            string title = Transliteration.Front(productName).Replace(" ", "-");
+            string title = translit.Front(productName);
             title = this.GetUniqueSeoTitle(title);
             Dictionary<int, object> pairs = new Dictionary<int, object>();
             pairs.Add(1, tovarID.ToString());
